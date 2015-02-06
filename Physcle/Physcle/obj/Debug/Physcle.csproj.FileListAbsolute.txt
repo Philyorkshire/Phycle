@@ -1,0 +1,9 @@
+C:\Users\Phillip\Documents\GitHub\Phycle\Physcle\Physcle\bin\Debug\Physcle.exe.config
+C:\Users\Phillip\Documents\GitHub\Phycle\Physcle\Physcle\bin\Debug\Physcle.exe
+C:\Users\Phillip\Documents\GitHub\Phycle\Physcle\Physcle\bin\Debug\Physcle.pdb
+C:\Users\Phillip\Documents\GitHub\Phycle\Physcle\Physcle\obj\Debug\Physcle.csprojResolveAssemblyReference.cache
+C:\Users\Phillip\Documents\GitHub\Phycle\Physcle\Physcle\obj\Debug\Physcle.Form1.resources
+C:\Users\Phillip\Documents\GitHub\Phycle\Physcle\Physcle\obj\Debug\Physcle.Properties.Resources.resources
+C:\Users\Phillip\Documents\GitHub\Phycle\Physcle\Physcle\obj\Debug\Physcle.csproj.GenerateResource.Cache
+C:\Users\Phillip\Documents\GitHub\Phycle\Physcle\Physcle\obj\Debug\Physcle.exe
+C:\Users\Phillip\Documents\GitHub\Phycle\Physcle\Physcle\obj\Debug\Physcle.pdb
