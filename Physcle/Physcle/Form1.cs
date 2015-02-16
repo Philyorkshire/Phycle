@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Physcle
 {
     public partial class Form1 : Form
     {
-        private bool _dragging = false;
-        private Point _offset;
+        private bool _dragging;
         private Point _startPoint = new Point(0, 0);
 
         public Form1()
@@ -15,10 +15,7 @@ namespace Physcle
             InitializeComponent();
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
+        #region Form Controls
 
         private void menuStrip1_MouseDown(object sender, MouseEventArgs e)
         {
@@ -47,5 +44,39 @@ namespace Physcle
         {
             WindowState = FormWindowState.Minimized;
         }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void loadFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var openState = new OpenFileDialog
+            {
+                Filter = @"HRM (*.hrm)|*.HRM",
+                Title = @"Load cycle data",
+                InitialDirectory = @"C:\"
+            };
+
+            if (openState.ShowDialog() != DialogResult.OK) return;
+
+            try
+            {
+                var input = new StreamReader(openState.FileName);
+                var data = input.ReadToEnd();
+                var ld = new Hrm(data);
+
+            }
+            catch (Exception em)
+            {
+                MessageBox.Show(@"Error: Could not read data from file. Original error: " + em.Message);
+            }
+        }
+        #endregion
+
+
+
+
     }
 }
