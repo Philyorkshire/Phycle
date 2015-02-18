@@ -7,6 +7,7 @@ namespace Physcle
 {
     public partial class Form1 : Form
     {
+        private Hrm Data;
         private bool _dragging;
         private Point _startPoint = new Point(0, 0);
 
@@ -65,8 +66,8 @@ namespace Physcle
             {
                 var input = new StreamReader(openState.FileName);
                 var data = input.ReadToEnd();
-                var ld = new Hrm(data);
-
+                Data = new Hrm(data);
+                SwitchView("overview");
             }
             catch (Exception em)
             {
@@ -75,8 +76,55 @@ namespace Physcle
         }
         #endregion
 
+        private void SwitchView(string view)
+        {
+            switch (view)
+            {
+                case "overview":
+                    overview.BackColor = Color.SlateGray;
+                    overviewPanel.Visible = true;
+                    versionText.Text = Data.Parameters.Version;
+                    sModeText.Text = Data.Parameters.SMode;
+                    monitorText.Text = Data.Parameters.Monitor;
+                    intervalText.Text = Data.Parameters.Interval.ToString();
 
+                    activeText.Text = Data.Parameters.ActiveLimit;
+                    maxHrText.Text = Data.Parameters.MaxHr;
+                    restHrText.Text = Data.Parameters.RestHr;
+                    V02MaxText.Text = Data.Parameters.Vo2Max;
+                    weightText.Text = Data.Parameters.Weight;
+                    dateText.Text = Data.Parameters.Date;
+                    startText.Text = Data.Parameters.StartTime;
+                    lengthText.Text = Data.Parameters.Length;
 
+                    upper1Text.Text = Data.Parameters.Upper1;
+                    upper2Text.Text = Data.Parameters.Upper2;
+                    upper3Text.Text = Data.Parameters.Upper3;
+
+                    lower1Text.Text = Data.Parameters.Lower1;
+                    lower2Text.Text = Data.Parameters.Lower2;
+                    lower3Text.Text = Data.Parameters.Lower3;
+
+                    timer1Text.Text = Data.Parameters.Timer1;
+                    timer2Text.Text = Data.Parameters.Timer2;
+                    timer3Text.Text = Data.Parameters.Timer3;
+                    break;
+                case "summary":
+                    overviewPanel.Visible = false;
+                    summary.BackColor = Color.SlateGray;
+                    break;
+            }
+        }
+
+        private void summary_Click(object sender, EventArgs e)
+        {
+            SwitchView("summary");
+        }
+
+        private void overview_Click(object sender, EventArgs e)
+        {
+            SwitchView("overview");
+        }
 
     }
 }
