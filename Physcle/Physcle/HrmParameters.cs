@@ -7,10 +7,9 @@ namespace Physcle
         public string Version;
         public string Monitor;
         public string SMode;
-        public string Date;
-        public string StartTime;
+        public DateTime StartDateTime;
         public string Length;
-        public int Interval;
+        public TimeSpan Interval;
         public string Upper1;
         public string Lower1;
         public string Upper2;

@@ -1,12 +1,17 @@
-﻿namespace Physcle
+﻿using System;
+
+namespace Physcle
 {
     public class HrmData
     {
-        public float Hr;
-        public float Speed;
-        public float Cadence;
-        public float Altitude;
-        public float Power;
-        public float Pressure; 
+        public double Hr;
+        public double Speed;
+        public double Cadence;
+        public double Altitude;
+        public double Power;
+        public double Pressure;
+        public DateTime DateTime;
+        public double Distance;
+        public double TotalDistance;
     }
 }

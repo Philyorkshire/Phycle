@@ -7,3 +7,5 @@ C:\Users\Phillip\Documents\GitHub\Phycle\Physcle\Physcle\obj\Debug\Physcle.Prope
 C:\Users\Phillip\Documents\GitHub\Phycle\Physcle\Physcle\obj\Debug\Physcle.csproj.GenerateResource.Cache
 C:\Users\Phillip\Documents\GitHub\Phycle\Physcle\Physcle\obj\Debug\Physcle.exe
 C:\Users\Phillip\Documents\GitHub\Phycle\Physcle\Physcle\obj\Debug\Physcle.pdb
+C:\Users\Phillip\Documents\GitHub\Phycle\Physcle\Physcle\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Phillip\Documents\GitHub\Phycle\Physcle\Physcle\bin\Debug\Newtonsoft.Json.xml
