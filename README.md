@@ -24,4 +24,4 @@ Phillip J Marsden
 
 ## Disclaimer
 
-THAT THE SOFTWARE COMES "AS IS", WITH NO WARRANTIES. THIS MEANS NO EXPRESS, IMPLIED OR STATUTORY WARRANTY, INCLUDING WITHOUT LIMITATION, WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, ANY WARRANTY AGAINST INTERFERENCE WITH YOUR ENJOYMENT OF THE SOFTWARE OR ANY WARRANTY OF TITLE OR NON-INFRINGEMENT. THERE IS NO WARRANTY THAT THIS SOFTWARE WILL FULFILL ANY OF YOUR PARTICULAR PURPOSES OR NEEDS.
+The software comes "as is", with no warranties. this means no express, implied or statutory warranty, including without limitation, warranties of merchantability or fitness for a particular purpose, any warranty against interference with your enjoyment of the software or any warranty of title or non-infringement. There is no warranty that this software will fulfill any of your particular purposes or needs.
