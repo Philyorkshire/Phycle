@@ -1,0 +1,10 @@
+C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\bin\Debug\CyclePro.Tests.dll.config
+C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\bin\Debug\CyclePro.Tests.dll
+C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\bin\Debug\CyclePro.Tests.pdb
+C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\bin\Debug\CyclePro.dll
+C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\bin\Debug\EntityFramework.dll
+C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\bin\Debug\CyclePro.pdb
+C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\bin\Debug\EntityFramework.xml
+C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\obj\Debug\CyclePro.Tests.csprojResolveAssemblyReference.cache
+C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\obj\Debug\CyclePro.Tests.dll
+C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\obj\Debug\CyclePro.Tests.pdb

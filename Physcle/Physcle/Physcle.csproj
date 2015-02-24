@@ -77,6 +77,15 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\Form1.datasource" />
+    <None Include="Properties\DataSources\Hrm.datasource" />
+    <None Include="Properties\DataSources\HrmData.datasource" />
+    <None Include="Properties\DataSources\HrmFeatures.datasource" />
+    <None Include="Properties\DataSources\HrmParameters.datasource" />
+    <None Include="Properties\DataSources\Overview.datasource" />
+    <None Include="Properties\DataSources\Physcle.Properties.Resources.datasource" />
+    <None Include="Properties\DataSources\Physcle.Properties.Settings.datasource" />
+    <None Include="Properties\DataSources\Program.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

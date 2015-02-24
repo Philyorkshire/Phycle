@@ -1,0 +1,240 @@
+﻿@using System.Globalization
+@using CyclePro.Data
+
+@model CyclePro.Models.GraphModel
+
+<h1>Dashboard</h1>
+
+<section>
+    <h3>Summary Information</h3>
+    <table>
+        <tr>
+            <td>Version</td>
+            <td>Interval</td>
+            <td>SMode</td>
+            <td>Monitor</td>
+            <td>Duration</td>
+            <td>Start Time</td>
+            <td>Active Limit</td>
+            <td>Max Heart Rate</td>
+            <td>Rest Heart Rate</td>
+            <td>Start Delay</td>
+            <td>VO2 MAX</td>
+            <td>Weight</td>
+        </tr>
+        <tr>
+            <td>@Hrm.PrimaryHrm.Parameters.Version</td>
+            <td>@Hrm.PrimaryHrm.Parameters.Interval</td>
+            <td>@Hrm.PrimaryHrm.Parameters.SMode</td>
+            <td>@Hrm.PrimaryHrm.Parameters.Monitor</td>
+            <td>@Hrm.PrimaryHrm.Parameters.Length</td>
+            <td>@Hrm.PrimaryHrm.Parameters.StartDateTime</td>
+            <td>@Hrm.PrimaryHrm.Parameters.ActiveLimit</td>
+            <td>@Hrm.PrimaryHrm.Parameters.MaxHr</td>
+            <td>@Hrm.PrimaryHrm.Parameters.RestHr</td>
+            <td>@Hrm.PrimaryHrm.Parameters.StartDelay</td>
+            <td>@Hrm.PrimaryHrm.Parameters.Vo2Max</td>
+            <td>@Hrm.PrimaryHrm.Parameters.Weight</td>
+        </tr>
+    </table>
+
+</section>
+
+<section>
+    <h3>Averages</h3>
+    <table>
+        <tr>
+            <td>Speed</td>
+            <td>Heart Rate</td>
+            <td>Cadence</td>
+            <td>Power</td>
+            <td>Pressure</td>
+            <td>Altitude</td>
+            <td>Distance</td>
+        </tr>
+        <tr>
+            <td>@Hrm.PrimaryHrm.GetAverage("speed")</td>
+            <td>@Hrm.PrimaryHrm.GetAverage("hr")</td>
+            <td>@Hrm.PrimaryHrm.GetAverage("cadence")</td>
+            <td>@Hrm.PrimaryHrm.GetAverage("power")</td>
+            <td>@Hrm.PrimaryHrm.GetAverage("pressure")</td>
+            <td>@Hrm.PrimaryHrm.GetAverage("altitude")</td>
+            <td>@Hrm.PrimaryHrm.GetAverage("distance")</td>
+        </tr>
+    </table>
+</section>
+
+<section>
+    <h3>Totals</h3>
+    <table>
+        <tr>
+            <td>Distance Travelled</td>
+            <td>Power Generated</td>
+        </tr>
+        <tr>
+            <td>@Hrm.PrimaryHrm.Data[Hrm.PrimaryHrm.Data.Count - 1].TotalDistance</td>
+            <td>@Hrm.PrimaryHrm.Data.Sum(row => row.Power).ToString(CultureInfo.InvariantCulture)</td>
+        </tr>
+    </table>
+</section>
+
+<section>
+    <script src="../../Scripts/Chart.js"></script>
+    <div>
+        <canvas id="canvas" height="100"></canvas>
+    </div>
+
+    <script>
+
+        var lineChartData = {
+            labels: [ @foreach (var i in Hrm.PrimaryHrm.Data)
+                      {
+                          <text>1,</text>
+                      }],
+            datasets: [
+                {
+                    label: "Heart Rate",
+                    fillColor: "rgba(220,220,220,0.2)",
+                    strokeColor: "rgba(220,220,220,1)",
+                    pointColor: "rgba(220,220,220,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(220,220,220,1)",
+                    data: [
+                        @foreach (var i in Hrm.PrimaryHrm.Data)
+                        {
+                            <text>@i.Hr,</text>
+                        }
+                    ]
+                },
+                {
+                    label: "Speed",
+                    fillColor: "rgba(176,23,31,0.2)",
+                    strokeColor: "rgba(176,23,31,1)",
+                    pointColor: "rgba(176,23,31,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(176,23,31,1)",
+                    data: [
+                        @foreach (var i in Hrm.PrimaryHrm.Data)
+                        {
+                            <text>@i.Speed,</text>
+                        }
+                    ]
+                },
+                {
+                    label: "Cadence",
+                    fillColor: "rgba(138, 43, 226,0.2)",
+                    strokeColor: "rgba(138, 43, 226,1)",
+                    pointColor: "rgba(138, 43, 226,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(138, 43, 226,1)",
+                    data: [
+                        @foreach (var i in Hrm.PrimaryHrm.Data)
+                        {
+                            <text>@i.Cadence,</text>
+                        }
+                    ]
+                },
+                {
+                    label: "Power",
+                    fillColor: "rgba(34, 139, 34,0.2)",
+                    strokeColor: "rgba(34, 139, 34,1)",
+                    pointColor: "rgba(34, 139, 34,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(34, 139, 34,1)",
+                    data: [
+                        @foreach (var i in Hrm.PrimaryHrm.Data)
+                        {
+                            <text>@i.Power,</text>
+                        }
+                    ]
+                }
+            ]
+
+        }
+        window.onload = function () {
+            var ctx = document.getElementById("canvas").getContext("2d");
+            window.myLine = new Chart(ctx).Line(lineChartData, {
+                responsive: true,
+                pointDot: false,
+                pointDotRadious: 0,
+                animation: false,
+                datasetStroke: false,
+                scaleShowVerticalLines: false
+            });
+        }
+
+
+    </script>
+</section>
+
+<section class="editGraph">
+    <table cellpadding="0" cellspacing="0" id="our_table">
+        <tr>
+            @for (var i = 0; i <= Hrm.PrimaryHrm.Data.Count; i++)
+            {
+               <td data-id="@i"></td>
+            }
+        </tr>
+    </table>
+
+
+    <script>
+        var selected = [];
+
+        function getSelected() {
+            selected = [];
+            $(".highlighted").each(function () {
+                selected.push(parseInt($(this).attr('data-id')));
+            });
+            document.getElementById('SelectedElements').value = selected;
+        }
+
+        $(function() {
+            var isMouseDown = false,
+                isHighlighted;
+            $("#our_table td")
+                .mousedown(function() {
+                    isMouseDown = true;
+                    $(this).toggleClass("highlighted");
+                    isHighlighted = $(this).hasClass("highlighted");
+
+                    return false; // prevent text selection
+                })
+                .mouseover(function() {
+                    if (isMouseDown) {
+                        $(this).toggleClass("highlighted", isHighlighted);
+                    }
+                })
+                .bind("selectstart", function() {
+                    return false;
+                });
+
+            $(document)
+                .mouseup(function() {
+                    isMouseDown = false;
+                    getSelected();
+                });
+        });
+    </script>
+    @using (Html.BeginForm("Dashboard", "Analysis", FormMethod.Post))
+    {
+        <div>
+            @Html.HiddenFor(m => m.SelectedElements)
+            <input type="submit" value="Remove selected" name="Command" /><br />
+        </div>
+        <div>
+     </div>
+    }
+
+
+    <ul class="legend">
+        <li><span class="hr"></span>Heart Rate</li>
+        <li><span class="cadence"></span>Cadence</li>
+        <li><span class="power"></span>Power</li>
+        <li><span class="speed"></span>Speed</li>
+    </ul>
+</section>

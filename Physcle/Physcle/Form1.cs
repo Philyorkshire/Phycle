@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 
@@ -15,7 +16,12 @@ namespace Physcle
         private bool _dragging;
         private Point _startPoint = new Point(0, 0);
 
-        public Form1()
+        // View switch
+        private bool overviewDisplay;
+        private bool summaryDisplay;
+        private bool dataDisplay;
+
+        public Form1() 
         {
             InitializeComponent();
         }
@@ -90,6 +96,12 @@ namespace Physcle
             switch (view)
             {
                 case "overview":
+                    overviewPanel.Visible = true;
+                    summaryPanel.Visible = false;
+                    dataPanel.Visible = false;
+                    dataTable.Rows.Clear();
+                    dataTable.Columns.Clear();
+
                     overview.BackColor = Color.SlateGray;
                     overviewPanel.Visible = true;
                     versionText.Text = _data.Parameters.Version;
@@ -117,6 +129,9 @@ namespace Physcle
                 case "summary":
                     overviewPanel.Visible = false;
                     summaryPanel.Visible = true;
+                    dataPanel.Visible = false;
+                    dataTable.Rows.Clear();
+                    dataTable.Columns.Clear();
 
                     summary.BackColor=     Color.SlateGray;
                     aSpeedText.Text=       Math.Round(_data.GetAverage("speed"), 2).ToString(CultureInfo.InvariantCulture);
@@ -128,6 +143,26 @@ namespace Physcle
                     tDistanceText.Text =   Math.Round(_data.Data[_data.Data.Count - 1].TotalDistance, 2).ToString(CultureInfo.InvariantCulture);
                     lengthText.Text =      _data.Parameters.Length;
                     tPowerText.Text =      _data.Data.Sum(row => row.Power).ToString(CultureInfo.InvariantCulture);
+                    break;
+
+                case "data":
+                    overviewPanel.Visible = false;
+                    summaryPanel.Visible = false;
+                    dataPanel.Visible = true;
+
+                    // Set Columns
+                    dataTable.Columns.Add("#", "#");
+                    dataTable.Columns.Add("Heart Rate", "Heart Rate");
+                    dataTable.Columns.Add("Speed", "Speed");
+                    dataTable.Columns.Add("Cadence", "Cadence");
+                    dataTable.Columns.Add("Altitude", "Altitude");
+                    dataTable.Columns.Add("Power", "Power");
+                    dataTable.Columns.Add("Pressure", "Pressure");
+                    dataTable.Columns.Add("Date", "Date/Time");
+                    dataTable.Columns.Add("Distance", "Distance");
+
+                    set_Rows();
+                    
                     break;
             }
         }
@@ -166,5 +201,32 @@ namespace Physcle
             }
         }
 
+        private void data_Click(object sender, EventArgs e)
+        {
+            SwitchView("data");
+        }
+
+        private void dataTable_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            _data.Data.RemoveAt(e.RowIndex);
+        }
+
+        private void set_Rows()
+        {
+            for (int i = 0; i < _data.Data.Count; i++)
+            {
+                dataTable.Rows.Insert(
+                    i,
+                    i,
+                    _data.Data[i].Hr,
+                    _data.Data[i].Speed,
+                    _data.Data[i].Cadence,
+                    _data.Data[i].Altitude,
+                    _data.Data[i].Power,
+                    _data.Data[i].Pressure,
+                    _data.Data[i].DateTime,
+                    _data.Data[i].Distance);
+            }
+        }
     }
 }

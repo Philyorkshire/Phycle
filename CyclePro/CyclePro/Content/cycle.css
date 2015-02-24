@@ -1,0 +1,53 @@
+﻿/* basic positioning */
+.legend {
+    list-style: none;
+}
+
+    .legend li {
+        float: left;
+        margin-right: 10px;
+    }
+
+    .legend span {
+        border: 1px solid #ccc;
+        float: left;
+        width: 12px;
+        height: 12px;
+        margin: 2px;
+    }
+    /* your colors */
+    .legend .hr {
+        background-color: rgba(220,220,220,1);
+    }
+
+    .legend .speed {
+        background-color: rgba(176,23,31,1);
+    }
+
+    .legend .cadence {
+        background-color: rgba(138, 43, 226,1);
+    }
+
+    .legend .power {
+        background-color: rgba(34, 139, 34, 1);
+    }
+
+
+.editGraph table td {
+    height: 50px;
+    text-align: center;
+    vertical-align: middle;
+    background-color: #ccc;
+    border: none;
+    padding: 0px;
+}
+
+.editGraph table {
+    margin-left: 30px;
+    margin-right: 3px;
+    width: 1174px;
+}
+
+.editGraph table td.highlighted {
+    background-color: #999;
+}

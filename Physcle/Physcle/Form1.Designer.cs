@@ -40,6 +40,7 @@
             this.navigationPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.overview = new System.Windows.Forms.Label();
             this.summary = new System.Windows.Forms.Label();
+            this.data = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.intervalText = new System.Windows.Forms.Label();
@@ -110,10 +111,17 @@
             this.aSpeedLabel = new System.Windows.Forms.Label();
             this.aSpeedText = new System.Windows.Forms.Label();
             this.saveToJson = new System.Windows.Forms.SaveFileDialog();
+            this.dataPanel = new System.Windows.Forms.Panel();
+            this.dataTable = new System.Windows.Forms.DataGridView();
+            this.label15 = new System.Windows.Forms.Label();
+            this.hrmBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.menuStrip1.SuspendLayout();
             this.navigationPanel.SuspendLayout();
             this.overviewPanel.SuspendLayout();
             this.summaryPanel.SuspendLayout();
+            this.dataPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataTable)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hrmBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -192,6 +200,7 @@
             this.navigationPanel.BackColor = System.Drawing.Color.Transparent;
             this.navigationPanel.Controls.Add(this.overview);
             this.navigationPanel.Controls.Add(this.summary);
+            this.navigationPanel.Controls.Add(this.data);
             this.navigationPanel.Location = new System.Drawing.Point(40, 50);
             this.navigationPanel.Name = "navigationPanel";
             this.navigationPanel.Size = new System.Drawing.Size(126, 516);
@@ -226,6 +235,21 @@
             this.summary.TabIndex = 2;
             this.summary.Text = "Summary";
             this.summary.Click += new System.EventHandler(this.summary_Click);
+            // 
+            // data
+            // 
+            this.data.AutoSize = true;
+            this.data.BackColor = System.Drawing.Color.Transparent;
+            this.data.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.data.ForeColor = System.Drawing.Color.White;
+            this.data.Location = new System.Drawing.Point(3, 57);
+            this.data.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
+            this.data.Name = "data";
+            this.data.Padding = new System.Windows.Forms.Padding(2);
+            this.data.Size = new System.Drawing.Size(43, 21);
+            this.data.TabIndex = 3;
+            this.data.Text = "Data";
+            this.data.Click += new System.EventHandler(this.data_Click);
             // 
             // label1
             // 
@@ -404,7 +428,7 @@
             this.overviewPanel.Controls.Add(this.sModeLabel);
             this.overviewPanel.Location = new System.Drawing.Point(188, 55);
             this.overviewPanel.Name = "overviewPanel";
-            this.overviewPanel.Size = new System.Drawing.Size(751, 497);
+            this.overviewPanel.Size = new System.Drawing.Size(751, 412);
             this.overviewPanel.TabIndex = 4;
             this.overviewPanel.Visible = false;
             // 
@@ -940,9 +964,9 @@
             this.summaryPanel.Controls.Add(this.aSpeedText);
             this.summaryPanel.Controls.Add(this.lengthText);
             this.summaryPanel.Controls.Add(this.lengthLabel);
-            this.summaryPanel.Location = new System.Drawing.Point(188, 558);
+            this.summaryPanel.Location = new System.Drawing.Point(167, 81);
             this.summaryPanel.Name = "summaryPanel";
-            this.summaryPanel.Size = new System.Drawing.Size(751, 497);
+            this.summaryPanel.Size = new System.Drawing.Size(751, 412);
             this.summaryPanel.TabIndex = 48;
             this.summaryPanel.Visible = false;
             // 
@@ -1034,7 +1058,7 @@
             this.label6.BackColor = System.Drawing.Color.Transparent;
             this.label6.Font = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(46, 34);
+            this.label6.Location = new System.Drawing.Point(15, 41);
             this.label6.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
             this.label6.Name = "label6";
             this.label6.Padding = new System.Windows.Forms.Padding(2);
@@ -1210,6 +1234,49 @@
             this.aSpeedText.TabIndex = 49;
             this.aSpeedText.Text = "N/A";
             // 
+            // dataPanel
+            // 
+            this.dataPanel.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.dataPanel.Controls.Add(this.dataTable);
+            this.dataPanel.Controls.Add(this.label15);
+            this.dataPanel.Location = new System.Drawing.Point(167, 499);
+            this.dataPanel.Name = "dataPanel";
+            this.dataPanel.Size = new System.Drawing.Size(751, 412);
+            this.dataPanel.TabIndex = 78;
+            this.dataPanel.Visible = false;
+            // 
+            // dataTable
+            // 
+            this.dataTable.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dataTable.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dataTable.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dataTable.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.dataTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataTable.Location = new System.Drawing.Point(21, 93);
+            this.dataTable.Name = "dataTable";
+            this.dataTable.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.dataTable.Size = new System.Drawing.Size(714, 305);
+            this.dataTable.TabIndex = 49;
+            this.dataTable.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataTable_RowsRemoved);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.BackColor = System.Drawing.Color.Transparent;
+            this.label15.Font = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.ForeColor = System.Drawing.Color.White;
+            this.label15.Location = new System.Drawing.Point(15, 31);
+            this.label15.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
+            this.label15.Name = "label15";
+            this.label15.Padding = new System.Windows.Forms.Padding(2);
+            this.label15.Size = new System.Drawing.Size(77, 36);
+            this.label15.TabIndex = 48;
+            this.label15.Text = "Data";
+            // 
+            // hrmBindingSource
+            // 
+            this.hrmBindingSource.DataSource = typeof(Physcle.Hrm);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1217,6 +1284,7 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImage = global::Physcle.Properties.Resources.Dark_Gray_U769;
             this.ClientSize = new System.Drawing.Size(955, 1082);
+            this.Controls.Add(this.dataPanel);
             this.Controls.Add(this.summaryPanel);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -1236,6 +1304,10 @@
             this.overviewPanel.PerformLayout();
             this.summaryPanel.ResumeLayout(false);
             this.summaryPanel.PerformLayout();
+            this.dataPanel.ResumeLayout(false);
+            this.dataPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataTable)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hrmBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1324,6 +1396,11 @@
         private System.Windows.Forms.ToolStripMenuItem xMLToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem jSONToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveToJson;
+        private System.Windows.Forms.Label data;
+        private System.Windows.Forms.Panel dataPanel;
+        private System.Windows.Forms.BindingSource hrmBindingSource;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.DataGridView dataTable;
 
 
 

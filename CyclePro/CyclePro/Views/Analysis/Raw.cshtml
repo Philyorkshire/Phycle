@@ -1,0 +1,48 @@
+﻿@using CyclePro.Data
+
+@{
+    var count = 1;
+}
+
+<h2>Raw Data View</h2>
+
+<section>
+    <h3>Summary Information</h3>
+    <table>
+        <tr>
+            <td></td>
+            <td>Heart Rate</td>
+            <td>Speed</td>
+            <td>Cadence</td>
+            <td>Altitude</td>
+            <td>Power</td>
+            <td>Pressure</td>
+            <td>Distance</td>
+            <td>Total Distance</td>
+            <td>Date Time</td>
+            <td></td>
+        </tr>
+
+        
+            @foreach (var i in Hrm.PrimaryHrm.Data)
+            {
+                <tr>
+                    <td><b>@count</b></td>
+                    <td>@i.Hr</td>
+                    <td>@i.Speed</td>
+                    <td>@i.Cadence</td>
+                    <td>@i.Altitude</td>
+                    <td>@i.Power</td>
+                    <td>@i.Pressure</td>
+                    <td>@i.Distance</td>
+                    <td>@i.TotalDistance</td>
+                    <td>@i.DateTime</td>
+                    <td>Edit</td>
+                </tr>
+                {
+                    count++;
+                }
+            }
+    </table>
+
+</section>
