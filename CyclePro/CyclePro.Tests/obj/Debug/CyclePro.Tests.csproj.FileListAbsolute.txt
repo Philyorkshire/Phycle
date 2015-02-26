@@ -8,3 +8,5 @@ C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\bin\Debug\Entit
 C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\obj\Debug\CyclePro.Tests.csprojResolveAssemblyReference.cache
 C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\obj\Debug\CyclePro.Tests.dll
 C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\obj\Debug\CyclePro.Tests.pdb
+C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\bin\Debug\nunit.framework.dll
+C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\bin\Debug\nunit.framework.xml

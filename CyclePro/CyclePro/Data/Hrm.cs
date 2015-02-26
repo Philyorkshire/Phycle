@@ -19,7 +19,7 @@ namespace CyclePro.Data
         /// <summary>
         /// Add model number and device name to extend functionality.
         /// </summary>
-        private static readonly Dictionary<int, string> ModelName = new Dictionary<int, string>
+        public static readonly Dictionary<int, string> ModelName = new Dictionary<int, string>
         { 
             // Model Id / Model Name
             {1, "Sport Tester / Vantage XL"},
@@ -94,7 +94,7 @@ namespace CyclePro.Data
             }
         }
 
-        private static DateTime SetDateTime(string date, string time)
+        public static DateTime SetDateTime(string date, string time)
         {
             var year = int.Parse(date.Substring(0, 4));
             var month = int.Parse(date.Substring(4, 2));
@@ -110,7 +110,7 @@ namespace CyclePro.Data
             return sDateTime;
         }
 
-        private void SetParameters(string text)
+        public void SetParameters(string text) 
         {
             Parameters = new HrmParameters
             {
