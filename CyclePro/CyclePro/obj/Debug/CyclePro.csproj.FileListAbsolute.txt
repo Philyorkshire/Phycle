@@ -18,4 +18,12 @@ C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro\bin\System.Web.WebPag
 C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro\bin\System.Web.WebPages.Razor.xml
 C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro\obj\Debug\CyclePro.dll
 C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro\obj\Debug\CyclePro.pdb
+C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro\bin\DocaLabs.Http.Client.dll
+C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro\bin\DocaLabs.Http.Client.Extension.NewtonSoft.dll
+C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro\bin\Newtonsoft.Json.dll
+C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro\bin\DocaLabs.Http.Client.pdb
+C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro\bin\DocaLabs.Http.Client.xml
+C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro\bin\DocaLabs.Http.Client.Extension.NewtonSoft.pdb
+C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro\bin\DocaLabs.Http.Client.Extension.NewtonSoft.xml
+C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro\bin\Newtonsoft.Json.xml
 C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro\obj\Debug\CyclePro.csprojResolveAssemblyReference.cache

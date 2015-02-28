@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using CyclePro.Data;
 using CyclePro.Models;
+using Newtonsoft.Json;
 
 namespace CyclePro.Controllers
 {
@@ -22,7 +23,7 @@ namespace CyclePro.Controllers
 
             var list = el.Split(',');
             var orderedList = list
-                .Select(i => int.Parse(i))
+                .Select(int.Parse)
                 .ToList()
                 .OrderByDescending(c => c);
 ;
@@ -42,6 +43,12 @@ namespace CyclePro.Controllers
         public ActionResult Raw()
         {
             return View();
+        }
+
+        public string PrimaryJson()
+        {
+            var data = JsonConvert.SerializeObject(Hrm.PrimaryHrm, Formatting.None);
+            return data;
         }
 
     }

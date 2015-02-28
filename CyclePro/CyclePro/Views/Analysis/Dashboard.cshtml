@@ -3,73 +3,211 @@
 
 @model CyclePro.Models.GraphModel
 
-<h1>Dashboard</h1>
+@{
+    var unit_speed = "mph";
+    var unit_length = "ft";
+    var unit_distance = "mile/s";
+    if (Hrm.PrimaryHrm.Features.Euro)
+    {
+        unit_speed = "km/h";
+        unit_length = "m";
+        unit_distance = "km";
+    }
+}
+<h2>Dashboard</h2>
 
-<section>
-    <h3>Summary Information</h3>
+<div class="row">
+<section class="one-third column">
+    
+    <h5>Primary parameters</h5>
     <table>
         <tr>
-            <td>Version</td>
-            <td>Interval</td>
-            <td>SMode</td>
-            <td>Monitor</td>
-            <td>Duration</td>
-            <td>Start Time</td>
-            <td>Active Limit</td>
-            <td>Max Heart Rate</td>
-            <td>Rest Heart Rate</td>
-            <td>Start Delay</td>
-            <td>VO2 MAX</td>
-            <td>Weight</td>
         </tr>
         <tr>
+            <td>Version</td>
             <td>@Hrm.PrimaryHrm.Parameters.Version</td>
+        </tr>
+        <tr>
+            <td>Interval</td>
             <td>@Hrm.PrimaryHrm.Parameters.Interval</td>
+        </tr>
+        <tr>
+            <td>SMode</td>
             <td>@Hrm.PrimaryHrm.Parameters.SMode</td>
+        </tr>
+        <tr>
+            <td>Monitor</td>
             <td>@Hrm.PrimaryHrm.Parameters.Monitor</td>
+        </tr>
+        <tr>
+            <td>Duration</td>
             <td>@Hrm.PrimaryHrm.Parameters.Length</td>
+        </tr>
+        <tr>
+            <td>Start Time</td>
             <td>@Hrm.PrimaryHrm.Parameters.StartDateTime</td>
+        </tr>
+        <tr>
+            <td>Active Limit</td>
             <td>@Hrm.PrimaryHrm.Parameters.ActiveLimit</td>
+        </tr>
+        <tr>
+            <td>Maximum Heart Rate</td>
             <td>@Hrm.PrimaryHrm.Parameters.MaxHr</td>
+        </tr>
+        <tr>
+            <td>Rest Heart Rate</td>
             <td>@Hrm.PrimaryHrm.Parameters.RestHr</td>
+        </tr>
+        <tr>
+            <td>Start Delay</td>
             <td>@Hrm.PrimaryHrm.Parameters.StartDelay</td>
+        </tr>
+        <tr>
+            <td>V02 Max</td>
             <td>@Hrm.PrimaryHrm.Parameters.Vo2Max</td>
+        </tr>
+        <tr>
+            <td>Weight (Kg)</td>
             <td>@Hrm.PrimaryHrm.Parameters.Weight</td>
         </tr>
     </table>
-
 </section>
 
-<section>
-    <h3>Averages</h3>
+
+<section class="one-third column">
+    <h5>Secondary parameters</h5>
+    <p>Lap 1</p>
     <table>
         <tr>
-            <td>Speed</td>
-            <td>Heart Rate</td>
-            <td>Cadence</td>
-            <td>Power</td>
-            <td>Pressure</td>
-            <td>Altitude</td>
-            <td>Distance</td>
         </tr>
         <tr>
-            <td>@Hrm.PrimaryHrm.GetAverage("speed")</td>
-            <td>@Hrm.PrimaryHrm.GetAverage("hr")</td>
-            <td>@Hrm.PrimaryHrm.GetAverage("cadence")</td>
-            <td>@Hrm.PrimaryHrm.GetAverage("power")</td>
-            <td>@Hrm.PrimaryHrm.GetAverage("pressure")</td>
-            <td>@Hrm.PrimaryHrm.GetAverage("altitude")</td>
-            <td>@Hrm.PrimaryHrm.GetAverage("distance")</td>
+            <td>Upper</td>
+            <td>@Hrm.PrimaryHrm.Parameters.Upper1</td>
+        </tr>
+        <tr>
+            <td>Lower</td>
+            <td>@Hrm.PrimaryHrm.Parameters.Lower1</td>
+        </tr>
+        <tr>
+            <td>Timer</td>
+            <td>@Hrm.PrimaryHrm.Parameters.Timer1</td>
         </tr>
     </table>
-</section>
-
-<section>
-    <h3>Totals</h3>
+    <p>Lap 2</p>
     <table>
         <tr>
-            <td>Distance Travelled</td>
-            <td>Power Generated</td>
+            <td>Upper</td>
+            <td>@Hrm.PrimaryHrm.Parameters.Upper2</td>
+        </tr>
+        <tr>
+            <td>Lower</td>
+            <td>@Hrm.PrimaryHrm.Parameters.Lower2</td>
+        </tr>
+        <tr>
+            <td>Timer</td>
+            <td>@Hrm.PrimaryHrm.Parameters.Timer3</td>
+        </tr>
+    </table>
+    <p>Lap 3</p>
+    <table>
+        <tr>
+            <td>Upper</td>
+            <td>@Hrm.PrimaryHrm.Parameters.Upper3</td>
+        </tr>
+        <tr>
+            <td>Lower</td>
+            <td>@Hrm.PrimaryHrm.Parameters.Lower3</td>
+        </tr>
+        <tr>
+            <td>Timer</td>
+            <td>@Hrm.PrimaryHrm.Parameters.Timer3</td>
+        </tr>
+    </table>
+
+</section>
+
+<section class="one-third column">
+    <h5>Summary Data</h5>
+    <table>
+        <tr>
+            <td></td>
+            <td>Highest</td>
+            <td>Lowest</td>
+            <td>Average</td>
+        </tr>
+
+        @if (Hrm.PrimaryHrm.Features.Speed)
+        {
+            <tr>
+                <td>Speed (@unit_speed)</td>
+                <td>@Hrm.PrimaryHrm.GetHighest("speed")</td>
+                <td>@Hrm.PrimaryHrm.GetLowest("speed")</td>
+                <td>@Hrm.PrimaryHrm.GetAverage("speed")</td>
+            </tr>
+        }
+
+        <tr>
+            <td>Heart Rate (bpm)</td>
+            <td>@Hrm.PrimaryHrm.GetHighest("hr")</td>
+            <td>@Hrm.PrimaryHrm.GetLowest("hr")</td>
+            <td>@Hrm.PrimaryHrm.GetAverage("hr")</td>
+        </tr>
+
+        @if (Hrm.PrimaryHrm.Features.Cadence)
+        {
+            <tr>
+                <td>Cadence (rpm)</td>
+                <td>@Hrm.PrimaryHrm.GetHighest("cadence")</td>
+                <td>@Hrm.PrimaryHrm.GetLowest("cadence")</td>
+                <td>@Hrm.PrimaryHrm.GetAverage("cadence")</td>
+            </tr>
+        }
+
+        @if (Hrm.PrimaryHrm.Features.Altitude)
+        {
+            <tr>
+                <td>Altitude (@unit_length)</td>
+                <td>@Hrm.PrimaryHrm.GetHighest("altitude")</td>
+                <td>@Hrm.PrimaryHrm.GetLowest("altitude")</td>
+                <td>@Hrm.PrimaryHrm.GetAverage("altitude")</td>
+            </tr>
+        }
+
+
+        <tr>
+            <td>Interval Distance (@unit_distance)</td>
+            <td>@Hrm.PrimaryHrm.GetHighest("distance")</td>
+            <td>@Hrm.PrimaryHrm.GetLowest("distance")</td>
+            <td>@Hrm.PrimaryHrm.GetAverage("distance")</td>
+        </tr>
+
+        @if (Hrm.PrimaryHrm.Features.Power)
+        {
+            <tr>
+                <td>Power</td>
+                <td>@Hrm.PrimaryHrm.GetHighest("power")</td>
+                <td>@Hrm.PrimaryHrm.GetLowest("power")</td>
+                <td>@Hrm.PrimaryHrm.GetAverage("power")</td>
+            </tr>
+        }
+
+        @if (Hrm.PrimaryHrm.Features.Pressure)
+        {
+            <tr>
+                <td>Pressure</td>
+                <td>@Hrm.PrimaryHrm.GetHighest("pressure")</td>
+                <td>@Hrm.PrimaryHrm.GetLowest("pressure")</td>
+                <td>@Hrm.PrimaryHrm.GetAverage("pressure")</td>
+            </tr>
+        }
+    </table>
+    <section>
+    <h5>Totals</h5>
+    <table>
+        <tr>
+            <td>Distance Travelled (@unit_distance)</td>
+            <td>Power Generated (Watts)</td>
         </tr>
         <tr>
             <td>@Hrm.PrimaryHrm.Data[Hrm.PrimaryHrm.Data.Count - 1].TotalDistance</td>
@@ -77,6 +215,10 @@
         </tr>
     </table>
 </section>
+</section>
+</div>
+
+@Html.ActionLink("View JSON", "PrimaryJson", "Analysis")
 
 <section>
     <script src="../../Scripts/Chart.js"></script>
@@ -171,12 +313,13 @@
     </script>
 </section>
 
+<div class="row">
 <section class="editGraph">
     <table cellpadding="0" cellspacing="0" id="our_table">
         <tr>
             @for (var i = 0; i <= Hrm.PrimaryHrm.Data.Count; i++)
             {
-               <td data-id="@i"></td>
+                <td data-id="@i"></td>
             }
         </tr>
     </table>
@@ -187,7 +330,7 @@
 
         function getSelected() {
             selected = [];
-            $(".highlighted").each(function () {
+            $(".highlighted").each(function() {
                 selected.push(parseInt($(this).attr('data-id')));
             });
             document.getElementById('SelectedElements').value = selected;
@@ -224,10 +367,10 @@
     {
         <div>
             @Html.HiddenFor(m => m.SelectedElements)
-            <input type="submit" value="Remove selected" name="Command" /><br />
+            <input type="submit" value="Remove selected" name="Command"/><br/>
         </div>
         <div>
-     </div>
+        </div>
     }
 
 
@@ -238,3 +381,4 @@
         <li><span class="speed"></span>Speed</li>
     </ul>
 </section>
+</div>

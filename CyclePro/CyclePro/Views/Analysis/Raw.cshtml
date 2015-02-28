@@ -4,19 +4,30 @@
     var count = 1;
 }
 
-<h2>Raw Data View</h2>
-
-<section>
-    <h3>Summary Information</h3>
+<section class="row">
+    <h5>Raw Data View</h5>
     <table>
         <tr>
             <td></td>
             <td>Heart Rate</td>
-            <td>Speed</td>
-            <td>Cadence</td>
-            <td>Altitude</td>
-            <td>Power</td>
-            <td>Pressure</td>
+
+            @if (Hrm.PrimaryHrm.Features.Speed)
+            {
+                <td>Speed</td>
+            }
+            @if (Hrm.PrimaryHrm.Features.Cadence)
+            {
+                <td>Cadence</td>
+            }
+            @if (Hrm.PrimaryHrm.Features.Altitude)
+            {
+                <td>Altitude</td>
+            }
+            @if (Hrm.PrimaryHrm.Features.Pressure)
+            {
+                <td>Pressure</td>
+            }
+
             <td>Distance</td>
             <td>Total Distance</td>
             <td>Date Time</td>
@@ -29,11 +40,28 @@
                 <tr>
                     <td><b>@count</b></td>
                     <td>@i.Hr</td>
-                    <td>@i.Speed</td>
-                    <td>@i.Cadence</td>
-                    <td>@i.Altitude</td>
-                    <td>@i.Power</td>
-                    <td>@i.Pressure</td>
+
+                    @if (Hrm.PrimaryHrm.Features.Speed)
+                    {
+                        <td>@i.Speed</td>
+                    }
+                    @if (Hrm.PrimaryHrm.Features.Cadence)
+                    {
+                        <td>@i.Cadence</td>
+                    }
+                    @if (Hrm.PrimaryHrm.Features.Altitude)
+                    {
+                        <td>@i.Altitude</td>
+                    }
+                    @if (Hrm.PrimaryHrm.Features.Power)
+                    {
+                        <td>@i.Power</td>
+                    }
+                    @if (Hrm.PrimaryHrm.Features.Pressure)
+                    {
+                        <td>@i.Pressure</td>
+                    }
+
                     <td>@i.Distance</td>
                     <td>@i.TotalDistance</td>
                     <td>@i.DateTime</td>

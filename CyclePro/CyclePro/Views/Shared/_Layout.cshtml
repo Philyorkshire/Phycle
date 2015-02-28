@@ -3,33 +3,26 @@
 <head>
     <meta charset="utf-8" />
     <title>@ViewBag.Title</title>
-    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
-    <link href="../../Content/cycle.css" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/response.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/cycle.css")" rel="stylesheet" type="text/css"/>
     <script src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/modernizr-2.5.3.js")" type="text/javascript"></script>
 </head>
 <body>
-    <div class="page">
-        <header>
-            <div id="title">
-                <h1>Cycle Analysis</h1>
-            </div>
-            <div id="logindisplay">
-                @Html.Partial("_LogOnPartial")
-            </div>
-            <nav>
-                <ul id="menu">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Analysis", "Dashboard", "Analysis")</li>
-                    <li>@Html.ActionLink("Raw", "Raw", "Analysis")</li>
-                </ul>
-            </nav>
-        </header>
-        <section id="main">
-            @RenderBody()
-        </section>
-        <footer>
-        </footer>
-    </div>
+
+<div class="container">
+    <div class="row">
+        <div class="two-thirds column"><h1>Cycle Analysis</h1></div>
+        <div class="one-third column">
+        <nav>
+            <p>@Html.ActionLink("Home", "Index", "Home")</p>
+            <p>@Html.ActionLink("Analysis", "Dashboard", "Analysis")</p>
+            <p>@Html.ActionLink("Raw", "Raw", "Analysis")</p>
+        </nav>
+    </div></div>
+    @RenderBody()
+    <footer>
+    </footer>
+</div>
 </body>
 </html>

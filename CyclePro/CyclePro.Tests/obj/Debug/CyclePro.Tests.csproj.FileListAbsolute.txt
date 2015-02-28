@@ -10,3 +10,5 @@ C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\obj\Debug\Cycle
 C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\obj\Debug\CyclePro.Tests.pdb
 C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\bin\Debug\nunit.framework.dll
 C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\bin\Debug\nunit.framework.xml
+C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Phillip\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\bin\Debug\Newtonsoft.Json.xml

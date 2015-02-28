@@ -2,7 +2,6 @@
 using System.Web;
 using System.Web.Mvc;
 using CyclePro.Data;
-using CyclePro.Models;
 
 namespace CyclePro.Controllers
 {
@@ -10,8 +9,6 @@ namespace CyclePro.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Welcome to ASP.NET MVC!";
-
             return View();
         }
 
@@ -24,12 +21,7 @@ namespace CyclePro.Controllers
 
             Hrm.PrimaryHrm = new Hrm(data);
 
-            return View();
-        }
-
-        public ActionResult About()
-        { 
-            return View();
+            return RedirectToAction("Dashboard","Analysis");
         }
     }
 }
