@@ -4,6 +4,7 @@
 @model CyclePro.Models.GraphModel
 
 @{
+    var count = 0;
     var unit_speed = "mph";
     var unit_length = "ft";
     var unit_distance = "mile/s";
@@ -14,7 +15,8 @@
         unit_distance = "km";
     }
 }
-<h2>Dashboard</h2>
+
+<h2 class="header-title">Dashboard</h2>
 
 <div class="row">
 <section class="one-third column">
@@ -76,7 +78,6 @@
 
 
 <section class="one-third column">
-    <h5>Secondary parameters</h5>
     <p>Lap 1</p>
     <table>
         <tr>
@@ -141,9 +142,9 @@
         {
             <tr>
                 <td>Speed (@unit_speed)</td>
-                <td>@Hrm.PrimaryHrm.GetHighest("speed")</td>
-                <td>@Hrm.PrimaryHrm.GetLowest("speed")</td>
-                <td>@Hrm.PrimaryHrm.GetAverage("speed")</td>
+                <td>@Math.Round(Hrm.PrimaryHrm.GetHighest("speed"), 2)</td>
+                <td>@Math.Round(Hrm.PrimaryHrm.GetLowest("speed"), 2)</td>
+                <td>@Math.Round(Hrm.PrimaryHrm.GetAverage("speed"), 2)</td>
             </tr>
         }
 
@@ -168,18 +169,18 @@
         {
             <tr>
                 <td>Altitude (@unit_length)</td>
-                <td>@Hrm.PrimaryHrm.GetHighest("altitude")</td>
-                <td>@Hrm.PrimaryHrm.GetLowest("altitude")</td>
-                <td>@Hrm.PrimaryHrm.GetAverage("altitude")</td>
+                <td>@Math.Round(Hrm.PrimaryHrm.GetHighest("altitude"), 2)</td>
+                <td>@Math.Round(Hrm.PrimaryHrm.GetLowest("altitude"), 2)</td>
+                <td>@Math.Round(Hrm.PrimaryHrm.GetAverage("altitude"), 2)</td>
             </tr>
         }
 
 
         <tr>
             <td>Interval Distance (@unit_distance)</td>
-            <td>@Hrm.PrimaryHrm.GetHighest("distance")</td>
-            <td>@Hrm.PrimaryHrm.GetLowest("distance")</td>
-            <td>@Hrm.PrimaryHrm.GetAverage("distance")</td>
+            <td>@Math.Round(Hrm.PrimaryHrm.GetHighest("distance"), 2)</td>
+            <td>@Math.Round(Hrm.PrimaryHrm.GetLowest("distance"), 2)</td>
+            <td>@Math.Round(Hrm.PrimaryHrm.GetAverage("distance"), 2)</td>
         </tr>
 
         @if (Hrm.PrimaryHrm.Features.Power)
@@ -218,20 +219,45 @@
 </section>
 </div>
 
-@Html.ActionLink("View JSON", "PrimaryJson", "Analysis")
+<div class="row">
+<div class="one-half column">
+    @Html.ActionLink("View JSON", "PrimaryJson", "Analysis")
 
+    <select id="metric">
+    @if (Hrm.PrimaryHrm.Features.Euro)
+    {
+        <option selected>Metric</option>
+        <option>Imperial</option>
+    }
+
+    else
+    {
+        <option>Metric</option>
+        <option selected>Imperial</option>
+    }
+    </select>
+
+</div>
+<div class="one-half column">
+<ul class="legend">
+    <li><span class="hr"></span>Heart Rate</li>
+    <li><span class="cadence"></span>Cadence</li>
+    <li><span class="power"></span>Power</li>
+    <li><span class="speed"></span>Speed</li>
+</ul>
+</div></div>
 <section>
     <script src="../../Scripts/Chart.js"></script>
     <div>
-        <canvas id="canvas" height="100"></canvas>
+        <canvas id="canvas" height="200"></canvas>
     </div>
 
     <script>
-
         var lineChartData = {
             labels: [ @foreach (var i in Hrm.PrimaryHrm.Data)
                       {
-                          <text>1,</text>
+                         <text>"@i.DateTime",</text>
+
                       }],
             datasets: [
                 {
@@ -305,7 +331,10 @@
                 pointDotRadious: 0,
                 animation: false,
                 datasetStroke: false,
-                scaleShowVerticalLines: false
+                scaleShowVerticalLines: false,
+                scaleShowLabels: true,
+                skipLabels: true,
+                showXLabels: 20
             });
         }
 
@@ -319,7 +348,11 @@
         <tr>
             @for (var i = 0; i <= Hrm.PrimaryHrm.Data.Count; i++)
             {
-                <td data-id="@i"></td>
+                if (count == 0 || count % 10 == 0)
+                {
+                    <td data-id="@i"></td>
+                }
+                count++;
             }
         </tr>
     </table>
@@ -374,11 +407,24 @@
     }
 
 
-    <ul class="legend">
-        <li><span class="hr"></span>Heart Rate</li>
-        <li><span class="cadence"></span>Cadence</li>
-        <li><span class="power"></span>Power</li>
-        <li><span class="speed"></span>Speed</li>
-    </ul>
+
 </section>
 </div>
+<script>
+    $('#metric').change(function (event) {
+        var metric = $('#metric').val();
+
+        if (metric == "Metric") {
+            $.get("/analysis/unitswitch?metric=0", function (data) { console.log(data) });
+        }
+
+        else {
+            $.get("/analysis/unitswitch?metric=1", function (data) { console.log(data) });
+        }
+
+        setTimeout(function () {
+            location.reload().delay();
+        }, 2000);
+    });
+
+</script>

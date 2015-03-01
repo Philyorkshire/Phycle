@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using CyclePro.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -7,13 +8,13 @@ namespace CyclePro.Tests
     [TestClass]
     public class HrmTest
     {
-        public readonly Hrm DataHrm;
+        public Hrm DataHrm;
 
         public HrmTest()
         {
             //Set default Hrm instance for testing.
-            var testData = System.IO.File.ReadAllText(@"TestFile.hrm");
-            DataHrm = new Hrm(testData);
+            var testData =  System.IO.File.ReadAllText(@"TestFile.hrm");
+            DataHrm =       new Hrm(testData);
         }
         /// <summary>
         /// Verify that the HRM data can be set with new HRM instance.
@@ -33,7 +34,7 @@ namespace CyclePro.Tests
         public void DateTimeFormat()
         {
             //Set date and time through set method
-            var dateTime = DataHrm.Parameters.SetDateTime("20130205", "15:46:20.0");
+            var dateTime =  DataHrm.Parameters.SetDateTime("20130205", "15:46:20.0");
             var eDateTime = new DateTime(2013,02,05, 15,46,20);
 
             //Verify the date time matches the exact date time values created with c# DateTime
@@ -49,8 +50,8 @@ namespace CyclePro.Tests
         public void GetModelName()
         {
             //Get two different model names using the model dictionary
-            var model = DataHrm.Parameters.ModelName[3];
-            var nmodel = DataHrm.Parameters.ModelName[34];
+            var model =     DataHrm.Parameters.ModelName[3];
+            var nmodel =    DataHrm.Parameters.ModelName[34];
 
             Assert.AreEqual("Accurex Plus", model);
             Assert.AreEqual("CS600X", nmodel);
@@ -108,11 +109,11 @@ namespace CyclePro.Tests
         public void GetHrmParameters()  
         {
             //Load test file and get stream
-            var file = System.IO.File.ReadAllText(@"TestFile.hrm");
+            var file =      System.IO.File.ReadAllText(@"TestFile.hrm");
 
             //Use method to get the parameters for version and interval
-            var version = DataHrm.Parameters.GetHrmParameter(file, "Version");
-            var interval = DataHrm.Parameters.GetHrmParameter(file, "Interval");
+            var version =   DataHrm.Parameters.GetHrmParameter(file, "Version");
+            var interval =  DataHrm.Parameters.GetHrmParameter(file, "Interval");
 
             //Verify they are as expected.
             Assert.AreEqual(version, "106");
@@ -172,13 +173,13 @@ namespace CyclePro.Tests
         [TestMethod]
         public void GetHighestValue()
         {
-            var speed = DataHrm.GetHighest("speed");
-            var hr = DataHrm.GetHighest("hr");
-            var cadence = DataHrm.GetHighest("cadence");
-            var altitude = DataHrm.GetHighest("altitude");
-            var power = DataHrm.GetHighest("power");
-            var pressure = DataHrm.GetHighest("pressure");
-            var distance = DataHrm.GetHighest("distance");
+            var speed =     DataHrm.GetHighest("speed");
+            var hr =        DataHrm.GetHighest("hr");
+            var cadence =   DataHrm.GetHighest("cadence");
+            var altitude =  DataHrm.GetHighest("altitude");
+            var power =     DataHrm.GetHighest("power");
+            var pressure =  DataHrm.GetHighest("pressure");
+            var distance =  DataHrm.GetHighest("distance");
 
             Assert.AreEqual(50.8, speed);
             Assert.AreEqual(162, hr);
@@ -195,13 +196,13 @@ namespace CyclePro.Tests
         [TestMethod]
         public void GetLowestValue()
         {
-            var speed = DataHrm.GetLowest("speed");
-            var hr = DataHrm.GetLowest("hr");
-            var cadence = DataHrm.GetLowest("cadence");
-            var altitude = DataHrm.GetLowest("altitude");
-            var power = DataHrm.GetLowest("power");
-            var pressure = DataHrm.GetLowest("pressure");
-            var distance = DataHrm.GetLowest("distance");
+            var speed =     DataHrm.GetLowest("speed");
+            var hr =        DataHrm.GetLowest("hr");
+            var cadence =   DataHrm.GetLowest("cadence");
+            var altitude =  DataHrm.GetLowest("altitude");
+            var power =     DataHrm.GetLowest("power");
+            var pressure =  DataHrm.GetLowest("pressure");
+            var distance =  DataHrm.GetLowest("distance");
 
             Assert.AreEqual(0, speed);
             Assert.AreEqual(98, hr);
@@ -210,6 +211,55 @@ namespace CyclePro.Tests
             Assert.AreEqual(0, power);
             Assert.AreEqual(0, pressure);
             Assert.AreEqual(0, distance);
+        }
+
+        /// <summary>
+        /// Test the switch metric correctly checks the current unit value and switches to metric.
+        /// </summary>
+        [TestMethod]
+        public void SwitchUnitToMetric()
+        {
+            var speed =         DataHrm.Data.First().Speed;
+            var distance =      DataHrm.Data.First().Distance;
+            var tDistance =     DataHrm.Data.First().TotalDistance;
+            var altitude =      DataHrm.Data.First().Altitude;
+
+            Hrm.SwitchMetric(DataHrm);
+
+            var nSpeed =        DataHrm.Data.First().Speed;
+            var nDistance =     DataHrm.Data.First().Distance;
+            var nTDistance =    DataHrm.Data.First().TotalDistance;
+            var nAltitude =     DataHrm.Data.First().Altitude;
+
+            Assert.AreNotEqual(speed, nSpeed);
+            Assert.AreNotEqual(distance, nDistance);
+            Assert.AreNotEqual(tDistance, nTDistance);
+            Assert.AreNotEqual(altitude, nAltitude);
+        }
+
+        /// <summary>
+        /// Test the switch metric correctly checks the current unit value and switches to imperial.
+        /// </summary>
+        public void SwitchUnitToImperial()
+        {
+            DataHrm.Features.Euro = false;
+
+            var speed =         DataHrm.Data.First().Speed;
+            var distance =      DataHrm.Data.First().Distance;
+            var tDistance =     DataHrm.Data.First().TotalDistance;
+            var altitude =      DataHrm.Data.First().Altitude;
+
+            Hrm.SwitchMetric(DataHrm);
+
+            var nSpeed =        DataHrm.Data.First().Speed;
+            var nDistance =     DataHrm.Data.First().Distance;
+            var nTDistance =    DataHrm.Data.First().TotalDistance;
+            var nAltitude =     DataHrm.Data.First().Altitude;
+
+            Assert.AreNotEqual(speed, nSpeed);
+            Assert.AreNotEqual(distance, nDistance);
+            Assert.AreNotEqual(tDistance, nTDistance);
+            Assert.AreNotEqual(altitude, nAltitude);
         }
     }
 }

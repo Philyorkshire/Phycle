@@ -1,4 +1,17 @@
-﻿using System;
+﻿/****************************** Module Header ******************************\
+Module Name:  Software Engineering B
+Project:      Cycle Computer Software
+Copyright (c) Phillip Jon Marsden. 
+
+All other rights reserved.
+
+THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
+EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
+WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+\***************************************************************************/
+
+
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -58,6 +71,13 @@ namespace CyclePro.Data
             Weight =      int.Parse(GetHrmParameter(text, "Weight"));
         }
 
+
+        /// <summary>
+        /// Get a given parameters average across all hrm data
+        /// </summary>
+        /// <param name="data">string</param>
+        /// <param name="param">string</param>
+        /// <returns>string average</returns>
         public string GetHrmParameter(string data, string param)
         {
             var expr = "^" + param + @"=(.*).$";
@@ -101,6 +121,12 @@ namespace CyclePro.Data
             {38, "RS800X"}
         };
 
+        /// <summary>
+        /// Returns a valid DateTime object given the string time and date.
+        /// </summary>
+        /// <param name="date">string</param>
+        /// <param name="time">string</param>
+        /// <returns>DateTime date_Time</returns>
         public DateTime SetDateTime(string date, string time)
         {
             var year = int.Parse(date.Substring(0, 4));

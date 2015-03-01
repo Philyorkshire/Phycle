@@ -1,8 +1,22 @@
-﻿using System.Linq;
+﻿/****************************** Module Header ******************************\
+Module Name:  Software Engineering B
+Project:      Cycle Computer Software
+Copyright (c) Phillip Jon Marsden. 
+
+All other rights reserved.
+
+THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
+EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
+WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+\***************************************************************************/
+
+using System;
+using System.Linq;
 using System.Web.Mvc;
 using CyclePro.Data;
 using CyclePro.Models;
 using Newtonsoft.Json;
+using Formatting = Newtonsoft.Json.Formatting;
 
 namespace CyclePro.Controllers
 {
@@ -22,19 +36,22 @@ namespace CyclePro.Controllers
             var el = model.SelectedElements;
 
             var list = el.Split(',');
+
             var orderedList = list
                 .Select(int.Parse)
-                .ToList()
+                .ToArray()
                 .OrderByDescending(c => c);
-;
 
             foreach (var i in orderedList)
             {
-                if (i < 0 || i >= Hrm.PrimaryHrm.Data.Count)
+                try
                 {
-                    break;
+                    Hrm.PrimaryHrm.Data.RemoveRange(i, 10);
                 }
-                Hrm.PrimaryHrm.Data.RemoveAt(i);
+                catch (Exception)
+                {
+                    // ignored
+                }
             }
 
             return View();
@@ -51,5 +68,12 @@ namespace CyclePro.Controllers
             return data;
         }
 
+        public string UnitSwitch(int metric)
+        {
+            Hrm.SwitchMetric(Hrm.PrimaryHrm);
+            Hrm.PrimaryHrm.Features.Euro = metric != 1;
+            //Hrm.PrimaryHrm.SetHrmData(Hrm.PrimaryHrm.Raw);
+            return "Accepted";
+        }
     }
 }

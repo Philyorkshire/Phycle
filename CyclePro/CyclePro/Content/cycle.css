@@ -34,18 +34,16 @@
 
 
 .editGraph table td {
-    height: 50px;
-    text-align: center;
-    vertical-align: middle;
+    height: 20px;
     background-color: #ccc;
-    border: none;
-    padding: 0px;
+    padding: 0;
+    width: 1px;
 }
 
 .editGraph table {
     margin-left: 30px;
     margin-right: 3px;
-    width: 1174px;
+    width: 96.5%;
 }
 
 .editGraph table td.highlighted {
@@ -54,4 +52,23 @@
 
 nav * {
     display: inline-block;
+    text-decoration: none;
+    color: black;
+    padding-left: 10px;
+}
+
+.legend {
+    float: right;
+}
+
+nav {
+    float: right;
+    padding-top: 25px;
+}
+
+.header-title {
+    background-color: rgb(169, 0, 205);
+    padding: 10px;
+    color: white;
+    text-align: center;
 }

@@ -5,7 +5,7 @@
 }
 
 <section class="row">
-    <h5>Raw Data View</h5>
+    <h2 class="header-title">Raw Data View</h2>
     <table>
         <tr>
             <td></td>
@@ -43,7 +43,7 @@
 
                     @if (Hrm.PrimaryHrm.Features.Speed)
                     {
-                        <td>@i.Speed</td>
+                        <td>@Math.Round(i.Speed, 2)</td>
                     }
                     @if (Hrm.PrimaryHrm.Features.Cadence)
                     {
@@ -51,7 +51,7 @@
                     }
                     @if (Hrm.PrimaryHrm.Features.Altitude)
                     {
-                        <td>@i.Altitude</td>
+                        <td>@Math.Round(i.Altitude, 2)</td>
                     }
                     @if (Hrm.PrimaryHrm.Features.Power)
                     {
@@ -65,7 +65,7 @@
                     <td>@i.Distance</td>
                     <td>@i.TotalDistance</td>
                     <td>@i.DateTime</td>
-                    <td>Edit</td>
+                    <td></td>
                 </tr>
                 {
                     count++;

@@ -1,19 +1,42 @@
-﻿using System;
+﻿/****************************** Module Header ******************************\
+Module Name:  Software Engineering B
+Project:      Cycle Computer Software
+Copyright (c) Phillip Jon Marsden. 
+
+All other rights reserved.
+
+THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
+EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
+WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+\***************************************************************************/
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using CyclePro.Helper;
 
 namespace CyclePro.Data
 {
+    /// <summary>
+    /// High level class including all parsed parameters from the given file.
+    /// </summary>
     public class Hrm
     {
-        public string FileName;
         public HrmParameters Parameters;
         public HrmFeatures Features;
         public List<HrmData> Data;
+
+        /// <summary>
+        /// Two static classes to be loaded for primary observation and comparisons.
+        /// </summary>
         public static Hrm PrimaryHrm;
         public static Hrm SecondaryHrm;
 
+        /// <summary>
+        /// HRM constructor that takes the all text from the given file.
+        /// </summary>
+        /// <param name="text"></param>
         public Hrm(string text)
         {
             Parameters = new HrmParameters(text);
@@ -25,7 +48,7 @@ namespace CyclePro.Data
         /// Calculate the average of a given data parameter
         /// </summary>
         /// <param name="param"></param>
-        /// <returns></returns>
+        /// <returns>double average</returns>
         public double GetAverage(string param)
         {
             double total;
@@ -60,6 +83,11 @@ namespace CyclePro.Data
             return Math.Round(average, 2);
         }
 
+        /// <summary>
+        /// Finds and returns the lowest entry for the given parameter.
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns>double value</returns>
         public double GetLowest(string param) 
         {
             double value;
@@ -93,6 +121,11 @@ namespace CyclePro.Data
             return value;
         }
 
+        /// <summary>
+        /// Finds and returns the highest recorded entry for the given parameter.
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns>double value</returns>
         public double GetHighest(string param)
         {
             double value;
@@ -126,7 +159,11 @@ namespace CyclePro.Data
             return value;
         }
 
-        private void SetHrmData(string data)
+        /// <summary>
+        /// Sets all the data rows from the raw HRM data string.
+        /// </summary>
+        /// <param name="data"></param>
+        public void SetHrmData(string data)
         {
             const string startString = "[HRData]\r\n";
 
@@ -166,7 +203,7 @@ namespace CyclePro.Data
                     }
                     else
                     {
-                        speed = (double.Parse(r[n]) / (60 * 60 / 1000));
+                        speed = (double.Parse(r[n]) / 3);
                     }
 
                     row.Speed = speed;
@@ -202,10 +239,36 @@ namespace CyclePro.Data
                 if (Features.Pressure)
                 {
                     row.Pressure = double.Parse(r[n]); //5
-                    n++;
                 }
 
                 Data.Add(row);
+            }
+        }
+
+        /// <summary>
+        /// Iterates through the set HRM primary data and converts values between imperial and metric.
+        /// </summary>
+        public static void SwitchMetric(Hrm hrmObject)
+        {
+            var data = hrmObject.Data;
+
+            foreach (var row in data)
+            {
+                if (hrmObject.Features.Euro)
+                {
+                    row.Distance =      row.Distance.ConvertKilometersToMiles();
+                    row.TotalDistance = row.TotalDistance.ConvertKilometersToMiles();
+                    row.Speed =         row.Speed.ConvertKilometersToMiles();
+                    row.Altitude =      row.Altitude.ConvertMetersToFeet();
+                }
+
+                else
+                {
+                    row.Distance =      row.Distance.ConvertMilesToKilometers();
+                    row.TotalDistance = row.TotalDistance.ConvertMilesToKilometers();
+                    row.Speed =         row.Speed.ConvertMilesToKilometers();
+                    row.Altitude =      row.Altitude.ConvertFeetToMeters();
+                }
             }
         }
     }
