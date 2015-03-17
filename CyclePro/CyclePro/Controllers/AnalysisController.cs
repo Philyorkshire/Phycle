@@ -11,7 +11,9 @@ WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 \***************************************************************************/
 
 using System;
+using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using CyclePro.Data;
 using CyclePro.Models;
@@ -60,6 +62,23 @@ namespace CyclePro.Controllers
         public ActionResult Raw()
         {
             return View();
+        }
+
+        public ActionResult Comparison()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Upload(HttpPostedFileBase file)
+        {
+            // Read bytes from http input stream
+            BinaryReader b = new BinaryReader(file.InputStream);
+            byte[] binData = b.ReadBytes((int)file.InputStream.Length);
+            string data = System.Text.Encoding.UTF8.GetString(binData);
+
+            Hrm.SecondaryHrm = new Hrm(data);
+            return RedirectToAction("Comparison", "Analysis");
         }
 
         public string PrimaryJson()

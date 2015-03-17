@@ -12,7 +12,6 @@ WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using CyclePro.Helper;
 
@@ -173,14 +172,15 @@ namespace CyclePro.Data
 
             Data = new List<HrmData>();
 
-
-            for (var i = 0; i <= rows.Length - 10; i++)
+            for (var i = 0; i <= rows.Length - 1; i++)
             {
                 var r = rows[i].Split('\t');
                 var split = Parameters.Interval + TimeSpan.FromSeconds(double.Parse(i.ToString()));
                 var stamp = Parameters.StartDateTime + split;
                 var n = 0;
 
+                if(r[0] == "") return;
+               
                 var row = new HrmData
                 {
                     Speed = 0,
@@ -196,24 +196,23 @@ namespace CyclePro.Data
 
                 if (Features.Speed)
                 {
-                    double speed;
+                    var speed = (double.Parse(r[n]));
+
                     if (Features.Euro)
                     {
                         speed = (double.Parse(r[n]) / 10);
                     }
-                    else
-                    {
-                        speed = (double.Parse(r[n]) / 3);
-                    }
+
+                    speed = (double.Parse(r[n])) / (60 * 60 / 1000);
+                    
 
                     row.Speed = speed;
 
-                    var seconds = Parameters.Interval.TotalSeconds / 100;
+                    var seconds = Parameters.Interval.TotalSeconds / 10000;
+                    var distanceInterval = seconds * row.Speed;
 
-                    var distanceInterval = double.Parse((seconds * speed).ToString(CultureInfo.InvariantCulture));
-
-                    row.Distance = distanceInterval;
-                    totalDistance = totalDistance + distanceInterval;
+                    row.Distance = Math.Round(distanceInterval, 2);
+                    totalDistance = Math.Round(totalDistance + distanceInterval, 2);
                     row.TotalDistance = totalDistance;
                 }
                 n++;

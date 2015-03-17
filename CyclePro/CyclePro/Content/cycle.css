@@ -72,3 +72,37 @@ nav {
     color: white;
     text-align: center;
 }
+
+.secondary-hrm {
+    color: rgb(180, 0, 0);
+}
+
+.upload {
+    padding: 35px;
+}
+
+.graphs {
+    width: 300px;
+}
+
+.info {
+    text-align: center;
+}
+
+#hrGraph, #altGraph, #speedGraph, #cadGraph {
+    cursor: pointer;
+}
+
+@media print {
+    table * {
+        font-size: 10px;
+    }
+
+    td {
+        padding: 2px;
+    }
+
+    .header-title, .navi, .upload-bar, .comparison_graphs {
+        display: none;
+    }
+}

@@ -21,7 +21,7 @@
 <div class="row">
 <section class="one-third column">
     
-    <h5>Primary parameters</h5>
+    <h5>Primary Parameters</h5>
     <table>
         <tr>
         </tr>
@@ -73,6 +73,7 @@
             <td>Weight (Kg)</td>
             <td>@Hrm.PrimaryHrm.Parameters.Weight</td>
         </tr>
+
     </table>
 </section>
 
@@ -209,10 +210,12 @@
         <tr>
             <td>Distance Travelled (@unit_distance)</td>
             <td>Power Generated (Watts)</td>
+            <td>Data Rows</td>
         </tr>
         <tr>
-            <td>@Hrm.PrimaryHrm.Data[Hrm.PrimaryHrm.Data.Count - 1].TotalDistance</td>
+            <td>@Math.Round(Hrm.PrimaryHrm.Data[Hrm.PrimaryHrm.Data.Count - 1].TotalDistance,2)</td>
             <td>@Hrm.PrimaryHrm.Data.Sum(row => row.Power).ToString(CultureInfo.InvariantCulture)</td>
+            <td>@Hrm.PrimaryHrm.Data.Count</td>
         </tr>
     </table>
 </section>

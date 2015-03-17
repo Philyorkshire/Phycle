@@ -23,6 +23,12 @@
             {
                 <td>Altitude</td>
             }
+
+            @if (Hrm.PrimaryHrm.Features.Power)
+            {
+                <td>Power</td>
+            }
+
             @if (Hrm.PrimaryHrm.Features.Pressure)
             {
                 <td>Pressure</td>
@@ -45,25 +51,29 @@
                     {
                         <td>@Math.Round(i.Speed, 2)</td>
                     }
+
                     @if (Hrm.PrimaryHrm.Features.Cadence)
                     {
                         <td>@i.Cadence</td>
                     }
+
                     @if (Hrm.PrimaryHrm.Features.Altitude)
                     {
                         <td>@Math.Round(i.Altitude, 2)</td>
                     }
+
                     @if (Hrm.PrimaryHrm.Features.Power)
                     {
                         <td>@i.Power</td>
                     }
+
                     @if (Hrm.PrimaryHrm.Features.Pressure)
                     {
                         <td>@i.Pressure</td>
                     }
 
-                    <td>@i.Distance</td>
-                    <td>@i.TotalDistance</td>
+                    <td>@Math.Round(i.Distance,2)</td>
+                    <td>@Math.Round(i.TotalDistance,2)</td>
                     <td>@i.DateTime</td>
                     <td></td>
                 </tr>

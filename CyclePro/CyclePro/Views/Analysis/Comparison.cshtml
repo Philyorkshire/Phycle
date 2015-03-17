@@ -1,0 +1,663 @@
+﻿@using System.Diagnostics.Eventing.Reader
+@using System.Globalization
+@using CyclePro.Data
+
+@model CyclePro.Models.GraphModel
+
+@{
+    var count = 0;
+    var unit_speed = "mph";
+    var unit_length = "ft";
+    var unit_distance = "mile/s";
+    if (Hrm.PrimaryHrm.Features.Euro)
+    {
+        unit_speed = "km/h";
+        unit_length = "m";
+        unit_distance = "km";
+    }
+
+    bool primaryBiggest = false;
+}
+
+<h2 class="header-title">Comparison</h2>
+
+@if (Hrm.SecondaryHrm == null)
+{
+    <div class="row upload-bar">
+        <div class="one-third column">&nbsp;</div>
+        <div class="one-third column">
+            @using (Html.BeginForm("Upload", "Analysis", FormMethod.Post, new {enctype = "multipart/form-data"}))
+            {
+                <div style="margin-top: 25%">
+                    <input type="file" name="file"/>
+                    <input type="submit" value="Upload File" name="Command"/><br/>
+                </div><p>Load your comparison HRM Polar data file</p>
+                <div>
+                </div>
+            }
+        </div>
+        <div class="one-third column">&nbsp;</div>
+    </div>
+    return;
+}
+
+@{
+    if (Hrm.PrimaryHrm.Data.Count > Hrm.SecondaryHrm.Data.Count)
+    {
+        primaryBiggest = true;
+    }
+}
+
+<div class="row upload-bar">
+    <div class="one-half column upload">
+        @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new {enctype = "multipart/form-data"}))
+        {
+            <div>
+                <input type="file" name="file"/>
+                <input type="submit" value="Upload File" name="Command"/><br/>
+            </div><p>Load your <b>primary</b> HRM Polar data file</p>
+        }
+    </div>
+    <div class="one-half column upload">
+            @using (Html.BeginForm("Upload", "Analysis", FormMethod.Post, new {enctype = "multipart/form-data"}))
+            {
+                <div>
+                    <input type="file" name="file"/>
+                    <input type="submit" value="Upload File" name="Command"/><br/>
+                </div><p>Load your <b class="secondary-hrm">comparison</b> HRM Polar data file</p>
+            }
+    </div>
+</div>
+
+<div class="row">
+<section class="one-third column">
+
+    <h5>Primary parameters</h5>
+    <table>
+        <tr>
+        </tr>
+        <tr>
+            <td>Version</td>
+            <td>@Hrm.PrimaryHrm.Parameters.Version</td>
+            <td class="secondary-hrm">@Hrm.SecondaryHrm.Parameters.Version</td>
+        </tr>
+        <tr>
+            <td>Interval</td>
+            <td>@Hrm.PrimaryHrm.Parameters.Interval</td>
+            <td class="secondary-hrm">@Hrm.SecondaryHrm.Parameters.Interval</td>
+        </tr>
+        <tr>
+            <td>SMode</td>
+            <td>@Hrm.PrimaryHrm.Parameters.SMode</td>
+            <td class="secondary-hrm">@Hrm.SecondaryHrm.Parameters.SMode</td>
+        </tr>
+        <tr>
+            <td>Monitor</td>
+            <td>@Hrm.PrimaryHrm.Parameters.Monitor</td>
+            <td class="secondary-hrm">@Hrm.SecondaryHrm.Parameters.Monitor</td>
+        </tr>
+        <tr>
+            <td>Duration</td>
+            <td>@Hrm.PrimaryHrm.Parameters.Length</td>
+            <td class="secondary-hrm">@Hrm.SecondaryHrm.Parameters.Length</td>
+        </tr>
+        <tr>
+            <td>Start Time</td>
+            <td>@Hrm.PrimaryHrm.Parameters.StartDateTime</td>
+            <td class="secondary-hrm">@Hrm.SecondaryHrm.Parameters.StartDateTime</td>
+        </tr>
+        <tr>
+            <td>Active Limit</td>
+            <td>@Hrm.PrimaryHrm.Parameters.ActiveLimit</td>
+            <td class="secondary-hrm">@Hrm.SecondaryHrm.Parameters.ActiveLimit</td>
+        </tr>
+        <tr>
+            <td>Maximum Heart Rate</td>
+            <td>@Hrm.PrimaryHrm.Parameters.MaxHr</td>
+            <td class="secondary-hrm">@Hrm.SecondaryHrm.Parameters.MaxHr</td>
+        </tr>
+        <tr>
+            <td>Rest Heart Rate</td>
+            <td>@Hrm.PrimaryHrm.Parameters.RestHr</td>
+            <td class="secondary-hrm">@Hrm.SecondaryHrm.Parameters.RestHr</td>
+        </tr>
+        <tr>
+            <td>Start Delay</td>
+            <td>@Hrm.PrimaryHrm.Parameters.StartDelay</td>
+            <td class="secondary-hrm">@Hrm.SecondaryHrm.Parameters.StartDelay</td>
+        </tr>
+        <tr>
+            <td>V02 Max</td>
+            <td>@Hrm.PrimaryHrm.Parameters.Vo2Max</td>
+            <td class="secondary-hrm">@Hrm.SecondaryHrm.Parameters.Vo2Max</td>
+        </tr>
+        <tr>
+            <td>Weight (Kg)</td>
+            <td>@Hrm.PrimaryHrm.Parameters.Weight</td>
+            <td class="secondary-hrm">@Hrm.SecondaryHrm.Parameters.Weight</td>
+        </tr>
+
+    </table>
+</section>
+
+<section class="one-third column">
+    <h5>Summary Data</h5>
+    <table>
+        <tr>
+            <td></td>
+            <td>Highest</td>
+            <td>Lowest</td>
+            <td>Average</td>
+        </tr>
+
+        @if (Hrm.PrimaryHrm.Features.Speed)
+        {
+            <tr>
+                <td>Speed (@unit_speed)</td>
+                <td>@Math.Round(Hrm.PrimaryHrm.GetHighest("speed"), 2)</td>
+                <td>@Math.Round(Hrm.PrimaryHrm.GetLowest("speed"), 2)</td>
+                <td>@Math.Round(Hrm.PrimaryHrm.GetAverage("speed"), 2)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="secondary-hrm">@Math.Round(Hrm.SecondaryHrm.GetHighest("speed"), 2)</td>
+                <td class="secondary-hrm">@Math.Round(Hrm.SecondaryHrm.GetLowest("speed"), 2)</td>
+                <td class="secondary-hrm">@Math.Round(Hrm.SecondaryHrm.GetAverage("speed"), 2)</td>
+            </tr>
+        }
+
+        <tr>
+            <td>Heart Rate (bpm)</td>
+            <td>@Hrm.PrimaryHrm.GetHighest("hr")</td>
+            <td>@Hrm.PrimaryHrm.GetLowest("hr")</td>
+            <td>@Hrm.PrimaryHrm.GetAverage("hr")</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="secondary-hrm">@Hrm.SecondaryHrm.GetHighest("hr")</td>
+            <td class="secondary-hrm">@Hrm.SecondaryHrm.GetLowest("hr")</td>
+            <td class="secondary-hrm">@Hrm.SecondaryHrm.GetAverage("hr")</td>
+        </tr>
+
+        @if (Hrm.PrimaryHrm.Features.Cadence)
+        {
+            <tr>
+                <td>Cadence (rpm)</td>
+                <td>@Hrm.PrimaryHrm.GetHighest("cadence")</td>
+                <td>@Hrm.PrimaryHrm.GetLowest("cadence")</td>
+                <td>@Hrm.PrimaryHrm.GetAverage("cadence")</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="secondary-hrm">@Hrm.SecondaryHrm.GetHighest("cadence")</td>
+                <td class="secondary-hrm">@Hrm.SecondaryHrm.GetLowest("cadence")</td>
+                <td class="secondary-hrm">@Hrm.SecondaryHrm.GetAverage("cadence")</td>
+            </tr>
+        }
+
+        @if (Hrm.PrimaryHrm.Features.Altitude)
+        {
+            <tr>
+                <td>Altitude (@unit_length)</td>
+                <td>@Math.Round(Hrm.PrimaryHrm.GetHighest("altitude"), 2)</td>
+                <td>@Math.Round(Hrm.PrimaryHrm.GetLowest("altitude"), 2)</td>
+                <td>@Math.Round(Hrm.PrimaryHrm.GetAverage("altitude"), 2)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="secondary-hrm">@Math.Round(Hrm.SecondaryHrm.GetHighest("altitude"), 2)</td>
+                <td class="secondary-hrm">@Math.Round(Hrm.SecondaryHrm.GetLowest("altitude"), 2)</td>
+                <td class="secondary-hrm">@Math.Round(Hrm.SecondaryHrm.GetAverage("altitude"), 2)</td>
+            </tr>
+        }
+
+
+        <tr>
+            <td>Interval Distance (@unit_distance)</td>
+            <td>@Math.Round(Hrm.PrimaryHrm.GetHighest("distance"), 2)</td>
+            <td>@Math.Round(Hrm.PrimaryHrm.GetLowest("distance"), 2)</td>
+            <td>@Math.Round(Hrm.PrimaryHrm.GetAverage("distance"), 2)</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="secondary-hrm">@Math.Round(Hrm.SecondaryHrm.GetHighest("distance"), 2)</td>
+            <td class="secondary-hrm">@Math.Round(Hrm.SecondaryHrm.GetLowest("distance"), 2)</td>
+            <td class="secondary-hrm">@Math.Round(Hrm.SecondaryHrm.GetAverage("distance"), 2)</td>
+        </tr>
+
+        @if (Hrm.PrimaryHrm.Features.Power)
+        {
+            <tr>
+                <td>Power</td>
+                <td>@Hrm.PrimaryHrm.GetHighest("power")</td>
+                <td>@Hrm.PrimaryHrm.GetLowest("power")</td>
+                <td>@Hrm.PrimaryHrm.GetAverage("power")</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="secondary-hrm">@Math.Round(Hrm.SecondaryHrm.GetHighest("power"), 2)</td>
+                <td class="secondary-hrm">@Math.Round(Hrm.SecondaryHrm.GetLowest("power"), 2)</td>
+                <td class="secondary-hrm">@Math.Round(Hrm.SecondaryHrm.GetAverage("power"), 2)</td>
+            </tr>
+        }
+
+        @if (Hrm.PrimaryHrm.Features.Pressure && Hrm.SecondaryHrm.Features.Pressure)
+        {
+            <tr>
+                <td>Pressure</td>
+                <td>@Hrm.PrimaryHrm.GetHighest("pressure")</td>
+                <td>@Hrm.PrimaryHrm.GetLowest("pressure")</td>
+                <td>@Hrm.PrimaryHrm.GetAverage("pressure")</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="secondary-hrm">@Math.Round(Hrm.SecondaryHrm.GetHighest("pressure"), 2)</td>
+                <td class="secondary-hrm">@Math.Round(Hrm.SecondaryHrm.GetLowest("pressure"), 2)</td>
+                <td class="secondary-hrm">@Math.Round(Hrm.SecondaryHrm.GetAverage("pressure"), 2)</td>
+            </tr>
+
+        }
+    </table>
+</section>
+<div class="one-third column">
+    <section>
+        <h5>Totals</h5>
+        <table>
+            <tr>
+                <td>Distance Travelled (@unit_distance)</td>
+                <td>Power Generated (Watts)</td>
+                <td>Data Rows</td>
+            </tr>
+            <tr>
+                <td>@Math.Round(Hrm.PrimaryHrm.Data[Hrm.PrimaryHrm.Data.Count - 1].TotalDistance, 2)</td>
+                <td>@Hrm.PrimaryHrm.Data.Sum(row => row.Power).ToString(CultureInfo.InvariantCulture)</td>
+                <td>@Hrm.PrimaryHrm.Data.Count</td>
+            </tr>
+            <tr>
+                <td class="secondary-hrm">@Math.Round(Hrm.SecondaryHrm.Data[Hrm.SecondaryHrm.Data.Count - 1].TotalDistance, 2)</td>
+                <td class="secondary-hrm">@Hrm.SecondaryHrm.Data.Sum(row => row.Power).ToString(CultureInfo.InvariantCulture)</td>
+                <td class="secondary-hrm">@Hrm.SecondaryHrm.Data.Count</td>
+            </tr>
+        </table>
+    </section>
+</div>
+</div>
+        
+
+<div class="row upload-bar">
+    <div class="one-half column" style="text-align: center">
+        <p style="display: inline-block">Primary data</p>
+        <select id="metric">
+            @if (Hrm.PrimaryHrm.Features.Euro)
+            {
+                <option selected>Metric</option>
+                <option>Imperial</option>
+            }
+
+            else
+            {
+                <option>Metric</option>
+                <option selected>Imperial</option>
+            }
+        </select>
+       
+    </div>
+
+    <div class="one-half column" style="text-align: center">
+        <p style="display: inline-block" class="secondary-hrm">Comparison data</p>
+        <select id="metric">
+            @if (Hrm.SecondaryHrm.Features.Euro)
+            {
+                <option selected>Metric</option>
+                <option>Imperial</option>
+            }
+
+            else
+            {
+                <option>Metric</option>
+                <option selected>Imperial</option>
+            }
+        </select>
+    </div>
+</div>
+
+<div class="comparison_graphs">
+<script async src="../../Scripts/Chart.js"></script>
+
+<h2 class="header-title">Comparison Graphs</h2>
+<p class="info">click to reveal</p>
+
+@if (Hrm.PrimaryHrm.Features.Speed && Hrm.SecondaryHrm.Features.Speed)
+{
+    <section>
+        <h4  id="speedGraph">Speed</h4>
+        <div class="speedGraph">
+            <canvas id="speed_canvas" height="200" class="graphs"></canvas>
+        </div>
+        <script>
+            var lineChartData = {
+                labels: [
+                    @if (primaryBiggest)
+                    {
+                        foreach (var i in Hrm.PrimaryHrm.Data)
+                        {
+                            <text>"00.01",</text>
+                        }
+                    }
+
+                    else
+                    {
+                        foreach (var i in Hrm.SecondaryHrm.Data)
+                        {
+                            <text>"00.01",</text>
+                        }
+                    }
+                ],
+                datasets: [
+                    {
+                        label: "Speed#Primary",
+                        fillColor: "rgba(34, 34, 34,0.2)",
+                        strokeColor: "rgba(34, 34, 34,1)",
+                        pointColor: "rgba(34, 34, 34,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(138, 43, 226,1)",
+                        data: [
+                            @foreach (var i in Hrm.PrimaryHrm.Data)
+                            {
+                                <text>@i.Speed,</text>
+                            }
+                        ]
+                    },
+                    {
+                        label: "Speed#Secondary",
+                        fillColor: "rgba(180, 0, 0,0.2)",
+                        strokeColor: "rgba(180, 0, 0,1)",
+                        pointColor: "rgba(180, 0, 0,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(34, 139, 34,1)",
+                        data: [
+                            @foreach (var i in Hrm.SecondaryHrm.Data)
+                            {
+                                <text>@i.Speed,</text>
+                            }
+                        ]
+                    }
+                ]
+
+            }
+        </script>
+    </section>
+}
+
+<section>
+    <hr/>
+    <h4  id="hrGraph">Heart Rate</h4>
+    <div class="HRGraph">
+        <canvas id="hr_canvas" height="200" class="graphs"></canvas>
+    </div>
+    <script>
+        var lineChartData2 = {
+            labels: [
+                @if (primaryBiggest)
+                {
+                    foreach (var i in Hrm.PrimaryHrm.Data)
+                    {
+                        <text>"00.01",</text>
+                    }
+                }
+
+                else
+                {
+                    foreach (var i in Hrm.SecondaryHrm.Data)
+                    {
+                        <text>"00.01",</text>
+                    }
+                }
+            ],
+            datasets: [
+                {
+                    label: "Hr#Primary",
+                    fillColor: "rgba(34, 34, 34,0.2)",
+                    strokeColor: "rgba(34, 34, 34,1)",
+                    pointColor: "rgba(34, 34, 34,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(138, 43, 226,1)",
+                    data: [
+                        @foreach (var i in Hrm.PrimaryHrm.Data)
+                        {
+                            <text>@i.Hr,</text>
+                        }
+                    ]
+                },
+                {
+                    label: "Hr#Secondary",
+                    fillColor: "rgba(180, 0, 0,0.2)",
+                    strokeColor: "rgba(180, 0, 0,1)",
+                    pointColor: "rgba(180, 0, 0,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(34, 139, 34,1)",
+                    data: [
+                        @foreach (var i in Hrm.SecondaryHrm.Data)
+                        {
+                            <text>@i.Hr,</text>
+                        }
+                    ]
+                }
+            ]
+
+        }
+    </script>
+</section>
+
+@if (Hrm.PrimaryHrm.Features.Cadence && Hrm.SecondaryHrm.Features.Cadence)
+{
+    <section>
+        <hr/>
+        <h4  id="cadGraph">Cadence</h4>
+        <div class="cadenceGraph">
+            <canvas id="cadence_canvas" height="200" class="graphs"></canvas>
+        </div>
+        <script>
+            var lineChartData3 = {
+                labels: [
+                    @if (primaryBiggest)
+                    {
+                        foreach (var i in Hrm.PrimaryHrm.Data)
+                        {
+                            <text>"00.01",</text>
+                        }
+                    }
+
+                    else
+                    {
+                        foreach (var i in Hrm.SecondaryHrm.Data)
+                        {
+                            <text>"00.01",</text>
+                        }
+                    }
+                ],
+                datasets: [
+                    {
+                        label: "Hr#Primary",
+                        fillColor: "rgba(34, 34, 34,0.2)",
+                        strokeColor: "rgba(34, 34, 34,1)",
+                        pointColor: "rgba(34, 34, 34,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(138, 43, 226,1)",
+                        data: [
+                            @foreach (var i in Hrm.PrimaryHrm.Data)
+                            {
+                                <text>@i.Cadence,</text>
+                            }
+                        ]
+                    },
+                    {
+                        label: "Hr#Secondary",
+                        fillColor: "rgba(180, 0, 0,0.2)",
+                        strokeColor: "rgba(180, 0, 0,1)",
+                        pointColor: "rgba(180, 0, 0,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(34, 139, 34,1)",
+                        data: [
+                            @foreach (var i in Hrm.SecondaryHrm.Data)
+                            {
+                                <text>@i.Cadence,</text>
+                            }
+                        ]
+                    }
+                ]
+
+            }
+        </script>
+    </section>
+}
+
+@if (Hrm.PrimaryHrm.Features.Altitude && Hrm.SecondaryHrm.Features.Altitude)
+{
+    <section>
+        <hr/>
+        <h4 id="altGraph">Altitude</h4>
+        <div class="altitudeGraph">
+            <canvas id="altitude_canvas" height="200" class="graphs"></canvas>
+        </div>
+        <script>
+            var lineChartData4 = {
+                labels: [
+                    @if (primaryBiggest)
+                    {
+                        foreach (var i in Hrm.PrimaryHrm.Data)
+                        {
+                            <text>"00.01",</text>
+                        }
+                    }
+
+                    else
+                    {
+                        foreach (var i in Hrm.SecondaryHrm.Data)
+                        {
+                            <text>"00.01",</text>
+                        }
+                    }
+                ],
+                datasets: [
+                    {
+                        label: "Hr#Primary",
+                        fillColor: "rgba(34, 34, 34,0.2)",
+                        strokeColor: "rgba(34, 34, 34,1)",
+                        pointColor: "rgba(34, 34, 34,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(138, 43, 226,1)",
+                        data: [
+                            @foreach (var i in Hrm.PrimaryHrm.Data)
+                            {
+                                <text>@i.Altitude,</text>
+                            }
+                        ]
+                    },
+                    {
+                        label: "Hr#Secondary",
+                        fillColor: "rgba(180, 0, 0,0.2)",
+                        strokeColor: "rgba(180, 0, 0,1)",
+                        pointColor: "rgba(180, 0, 0,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(34, 139, 34,1)",
+                        data: [
+                            @foreach (var i in Hrm.SecondaryHrm.Data)
+                            {
+                                <text>@i.Altitude,</text>
+                            }
+                        ]
+                    }
+                ]
+
+            }
+        </script>
+    </section>
+}
+
+<script>
+    window.onload = function() {
+        var ctx4 = document.getElementById("altitude_canvas").getContext("2d");
+        window.myLine = new Chart(ctx4).Line(lineChartData, {
+            responsive: true,
+            pointDot: false,
+            pointDotRadious: 0,
+            animation: false,
+            datasetStroke: false,
+            scaleShowVerticalLines: false,
+            scaleShowLabels: true,
+            skipLabels: true,
+            showXLabels: 20
+        });
+
+        var ctx3 = document.getElementById("cadence_canvas").getContext("2d");
+        window.myLine = new Chart(ctx3).Line(lineChartData, {
+            responsive: true,
+            pointDot: false,
+            pointDotRadious: 0,
+            animation: false,
+            datasetStroke: false,
+            scaleShowVerticalLines: false,
+            scaleShowLabels: true,
+            skipLabels: true,
+            showXLabels: 20
+        });
+
+        var ctx2 = document.getElementById("hr_canvas").getContext("2d");
+        window.myLine = new Chart(ctx2).Line(lineChartData2, {
+            responsive: true,
+            pointDot: false,
+            pointDotRadious: 0,
+            animation: false,
+            datasetStroke: false,
+            scaleShowVerticalLines: false,
+            scaleShowLabels: true,
+            skipLabels: true,
+            showXLabels: 20
+        });
+
+        var ctx = document.getElementById("speed_canvas").getContext("2d");
+        window.myLine = new Chart(ctx).Line(lineChartData, {
+            responsive: true,
+            pointDot: false,
+            pointDotRadious: 0,
+            animation: false,
+            datasetStroke: false,
+            scaleShowVerticalLines: false,
+            scaleShowLabels: true,
+            skipLabels: true,
+            showXLabels: 20
+        });
+
+        $(".HRGraph").hide();
+        $(".cadenceGraph").hide();
+        $(".speedGraph").hide();
+        $(".altitudeGraph").hide();
+
+        $("#altGraph").click(function() {
+            $(".altitudeGraph").fadeToggle("fast", function() {
+            });
+        });
+        $("#cadGraph").click(function() {
+            $(".cadenceGraph").fadeToggle("fast", function() {
+            });
+        });
+        $("#hrGraph").click(function() {
+            $(".HRGraph").fadeToggle("fast", function() {
+            });
+        });
+        $("#speedGraph").click(function() {
+            $(".speedGraph").fadeToggle("fast", function() {
+            });
+        });
+    }
+</script>
+</div>
