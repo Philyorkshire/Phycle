@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="row">
+    
+    <div class="one-third column">&nbsp;</div>
+    <div class="one-third column">
+        @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new {enctype = "multipart/form-data"}))
+        {
+            <div style="margin-top: 25%">
+                <input type="file" name="file"/>
+                <input type="submit" value="Upload File" name="Command"/><br/>
+            </div><p>Load your HRM Polar data file</p>
+            <div>
+            </div>
+        }
+    </div>
+    <div class="one-third column">&nbsp;</div>
+</div>
