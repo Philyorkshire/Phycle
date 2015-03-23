@@ -282,55 +282,17 @@
     </section>
 </div>
 </div>
-        
-
-<div class="row upload-bar">
-    <div class="one-half column" style="text-align: center">
-        <p style="display: inline-block">Primary data</p>
-        <select id="metric">
-            @if (Hrm.PrimaryHrm.Features.Euro)
-            {
-                <option selected>Metric</option>
-                <option>Imperial</option>
-            }
-
-            else
-            {
-                <option>Metric</option>
-                <option selected>Imperial</option>
-            }
-        </select>
-       
-    </div>
-
-    <div class="one-half column" style="text-align: center">
-        <p style="display: inline-block" class="secondary-hrm">Comparison data</p>
-        <select id="metric">
-            @if (Hrm.SecondaryHrm.Features.Euro)
-            {
-                <option selected>Metric</option>
-                <option>Imperial</option>
-            }
-
-            else
-            {
-                <option>Metric</option>
-                <option selected>Imperial</option>
-            }
-        </select>
-    </div>
-</div>
 
 <div class="comparison_graphs">
 <script async src="../../Scripts/Chart.js"></script>
 
-<h2 class="header-title">Comparison Graphs</h2>
+<h2 class="header-title">Graphs</h2>
 <p class="info">click to reveal</p>
 
 @if (Hrm.PrimaryHrm.Features.Speed && Hrm.SecondaryHrm.Features.Speed)
 {
     <section>
-        <h4  id="speedGraph">Speed</h4>
+        <h4 id="speedGraph">Speed</h4>
         <div class="speedGraph">
             <canvas id="speed_canvas" height="200" class="graphs"></canvas>
         </div>
@@ -393,7 +355,7 @@
 
 <section>
     <hr/>
-    <h4  id="hrGraph">Heart Rate</h4>
+    <h4 id="hrGraph">Heart Rate</h4>
     <div class="HRGraph">
         <canvas id="hr_canvas" height="200" class="graphs"></canvas>
     </div>
@@ -457,7 +419,7 @@
 {
     <section>
         <hr/>
-        <h4  id="cadGraph">Cadence</h4>
+        <h4 id="cadGraph">Cadence</h4>
         <div class="cadenceGraph">
             <canvas id="cadence_canvas" height="200" class="graphs"></canvas>
         </div>

@@ -11,6 +11,8 @@ WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 \***************************************************************************/
 
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -35,26 +37,23 @@ namespace CyclePro.Controllers
         [HttpPost]
         public ActionResult Dashboard(GraphModel model)
         {
-            var el = model.SelectedElements;
-
-            var list = el.Split(',');
+            var list = model.SelectedElementsToRemove.Split(',');
 
             var orderedList = list
                 .Select(int.Parse)
-                .ToArray()
-                .OrderByDescending(c => c);
+                .ToArray();
 
-            foreach (var i in orderedList)
+            var excludeList = new List<HrmData>();
+
+            for (var x = 0; x < orderedList.Count() - 1; x ++)
             {
-                try
+                for (var y = x; y < 10; y++)
                 {
-                    Hrm.PrimaryHrm.Data.RemoveRange(i, 10);
-                }
-                catch (Exception)
-                {
-                    // ignored
+                    excludeList.Add(Hrm.PrimaryHrm.Data[orderedList[x] + y]);
                 }
             }
+
+            Hrm.PrimaryHrm.Data.RemoveAll(h => excludeList.Exists(c => c.Equals(h)));
 
             return View();
         }
@@ -93,6 +92,50 @@ namespace CyclePro.Controllers
             Hrm.PrimaryHrm.Features.Euro = metric != 1;
             //Hrm.PrimaryHrm.SetHrmData(Hrm.PrimaryHrm.Raw);
             return "Accepted";
+        }
+
+        public ActionResult Intervals()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateIntervals(GraphModel model)
+        {
+            var markers = new List<int>();
+
+            var list = model.SelectedElementsToInterval.Split(',');
+            var orderedList = list
+                .Select(int.Parse)
+                .ToArray();
+
+            Hrm.PrimaryHrm.HrmIntervals.Clear();
+
+            var add = true;
+
+            for(var i = 0; i < orderedList.Count(); i++)
+            {
+                if(add) markers.Add(orderedList[i]);
+
+                for (var x = i; x < orderedList.Count() - 1; x++)
+                {
+                    if (orderedList[i + 1] != (orderedList[i] + 10))
+                    {
+                        markers.Add(orderedList[i]);
+                        add = true;
+                        break;
+                    }
+                    
+                    add = false;
+                    
+                }
+            }
+
+            markers.Add(orderedList[orderedList.Count() - 1]);
+
+            Hrm.PrimaryHrm.CreateIntervalObjects(markers);
+
+            return RedirectToAction("Intervals", "Analysis");
         }
     }
 }

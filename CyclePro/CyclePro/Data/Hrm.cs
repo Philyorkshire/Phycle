@@ -24,7 +24,8 @@ namespace CyclePro.Data
     {
         public HrmParameters Parameters;
         public HrmFeatures Features;
-        public List<HrmData> Data;
+        public List<HrmData> Data; 
+        public List<HrmIntervals> HrmIntervals;
 
         /// <summary>
         /// Two static classes to be loaded for primary observation and comparisons.
@@ -41,6 +42,11 @@ namespace CyclePro.Data
             Parameters = new HrmParameters(text);
             Features = new HrmFeatures(Parameters.SMode);
             SetHrmData(text);
+
+            if (Features.Power)
+            {
+                FindIntervals();
+            }
         }
 
         /// <summary>
@@ -269,6 +275,78 @@ namespace CyclePro.Data
                     row.Altitude =      row.Altitude.ConvertFeetToMeters();
                 }
             }
+        }
+
+
+        /// <summary>
+        /// Find interval training in the data by analyzing peaks in the power
+        /// </summary>
+        private void FindIntervals()
+        {
+
+            var positionsInts = new List<int>();
+
+            const double tolerance = 2;
+
+            for (var i = 0; i < (Data.Count - 6); i+=3)
+            {
+                var first = (Data[i].Power + Data[i + 1].Power) + Data[i + 2].Power;
+                var second = (Data[i + 3].Power + Data[i + 4].Power) + Data[i + 5].Power;
+
+                if ((first * tolerance) < second && first > 0.0)
+                {
+                    positionsInts.Add(i);
+
+                    for (var x = i; x < (Data.Count - 6); x++)
+                    {
+                        var firstColumn = (Data[x].Power + Data[x + 1].Power) + Data[x + 2].Power;
+                        var secondColumn = (Data[x + 3].Power + Data[x + 4].Power) + Data[x + 5].Power;
+
+                        if ((firstColumn / tolerance) > secondColumn)
+                        {
+                            i = x;
+                            positionsInts.Add(x + 5);
+                            break;
+                        }
+                    }
+
+                }
+            }
+
+            CreateIntervalObjects(positionsInts);
+        }
+
+        /// <summary>
+        /// Create interval object using the indexes of the start and end of peaks in the power output.
+        /// </summary>
+        /// <param name="markers"></param>
+        public void CreateIntervalObjects(List<int> markers)
+        {
+            HrmIntervals = new List<HrmIntervals>();
+
+            for (var i = 0; i < markers.Count - 1; i += 2)
+            {
+                var intervalData = new List<HrmData>();
+
+                for (var x = markers[i]; x < markers[i + 1]; x++)
+                {
+                    intervalData.Add(Data[x]);
+                }
+
+                var interval = new HrmIntervals(intervalData);
+                HrmIntervals.Add(interval);
+            }
+
+            GetIntervalIndexes();
+        }
+
+        /// <summary>
+        /// Get a list of index values that match for HrmData which are both in the HrmInterval and HrmData
+        /// </summary>
+        /// <returns></returns>
+        public List<int> GetIntervalIndexes()
+        {
+            return (from interval in HrmIntervals from i in interval.GetIntervals() select Data.IndexOf(i)).ToList();
         }
     }
 }

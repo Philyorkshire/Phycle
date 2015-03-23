@@ -20,6 +20,7 @@ namespace CyclePro.Models
         /// <summary>
         /// Holds comma separated string of selected items in the graph table.
         /// </summary>
-        public string SelectedElements { get; set;} 
+        public string SelectedElementsToRemove { get; set;}
+        public string SelectedElementsToInterval { get; set; }
     }
 }
