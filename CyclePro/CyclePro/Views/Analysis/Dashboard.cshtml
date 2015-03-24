@@ -275,9 +275,6 @@
 </div>
 
 <div class="row">
-    
-
-
         <script>
             var selected = [];
 
@@ -288,6 +285,7 @@
                 });
                 document.getElementById('SelectedElementsToRemove').value = selected;
                 document.getElementById('SelectedElementsToInterval').value = selected;
+                document.getElementById('SelectedElementsToCrop').value = selected;
             }
 
             $(function () {
@@ -339,7 +337,21 @@
                 {
                     <div>
                         @Html.HiddenFor(s => s.SelectedElementsToInterval)
-                        <input type="submit" value="Create Intervals" name="Command" /><br />
+                        <input type="submit" value="Create Intervals" name="Command"/><br/>
+                    </div>
+                    <div>
+                    </div>
+                }
+
+            </div>
+
+            <div class="one-third column">
+
+                @using (Html.BeginForm("CropHrmData", "Analysis", FormMethod.Post))
+                {
+                    <div>
+                        @Html.HiddenFor(s => s.SelectedElementsToCrop)
+                        <input type="submit" value="Crop Data" name="Command" /><br />
                     </div>
                     <div>
                     </div>

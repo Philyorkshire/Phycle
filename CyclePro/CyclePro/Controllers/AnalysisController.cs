@@ -43,18 +43,10 @@ namespace CyclePro.Controllers
                 .Select(int.Parse)
                 .ToArray();
 
-            var excludeList = new List<HrmData>();
+            var start = orderedList.Min();
+            var range = orderedList.Max() - start;
 
-            for (var x = 0; x < orderedList.Count() - 1; x ++)
-            {
-                for (var y = x; y < 10; y++)
-                {
-                    excludeList.Add(Hrm.PrimaryHrm.Data[orderedList[x] + y]);
-                }
-            }
-
-            Hrm.PrimaryHrm.Data.RemoveAll(h => excludeList.Exists(c => c.Equals(h)));
-
+            Hrm.PrimaryHrm.Data.RemoveRange(start, range);
             return View();
         }
 
@@ -136,6 +128,23 @@ namespace CyclePro.Controllers
             Hrm.PrimaryHrm.CreateIntervalObjects(markers);
 
             return RedirectToAction("Intervals", "Analysis");
+        }
+
+        [HttpPost]
+        public ActionResult CropHrmData(GraphModel model)
+        {
+            var list = model.SelectedElementsToCrop.Split(',');
+            var orderedList = list
+                .Select(int.Parse)
+                .ToArray();
+
+            var first = orderedList.Min();
+            var count = Hrm.PrimaryHrm.Data.Count - orderedList.Max();
+
+            Hrm.PrimaryHrm.Data.RemoveRange(orderedList.Max(), count - 1);
+            Hrm.PrimaryHrm.Data.RemoveRange(0, first);
+
+            return RedirectToAction("Dashboard", "Analysis");
         }
     }
 }

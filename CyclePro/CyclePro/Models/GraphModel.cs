@@ -22,5 +22,6 @@ namespace CyclePro.Models
         /// </summary>
         public string SelectedElementsToRemove { get; set;}
         public string SelectedElementsToInterval { get; set; }
+        public string SelectedElementsToCrop { get; set; }
     }
 }
