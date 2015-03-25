@@ -133,6 +133,8 @@ namespace CyclePro.Controllers
         [HttpPost]
         public ActionResult CropHrmData(GraphModel model)
         {
+            var fivePercent = (Hrm.PrimaryHrm.Data.Count / 10) / 2;
+
             var list = model.SelectedElementsToCrop.Split(',');
             var orderedList = list
                 .Select(int.Parse)
@@ -142,7 +144,7 @@ namespace CyclePro.Controllers
             var count = Hrm.PrimaryHrm.Data.Count - orderedList.Max();
 
             Hrm.PrimaryHrm.Data.RemoveRange(orderedList.Max(), count - 1);
-            Hrm.PrimaryHrm.Data.RemoveRange(0, first);
+            Hrm.PrimaryHrm.Data.RemoveRange(0, first - fivePercent);
 
             return RedirectToAction("Dashboard", "Analysis");
         }
