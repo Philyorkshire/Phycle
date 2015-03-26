@@ -31,7 +31,7 @@ namespace CyclePro.Controllers
             byte[] binData = b.ReadBytes((int) file.InputStream.Length);
             string data = System.Text.Encoding.UTF8.GetString(binData);
 
-            Hrm.PrimaryHrm = new Hrm(data);
+            Hrm.PrimaryHrm = new Hrm(data) { Name = file.FileName };
 
             return RedirectToAction("Dashboard","Analysis");
         }

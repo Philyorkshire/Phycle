@@ -10,12 +10,16 @@ EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
 WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 \***************************************************************************/
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using CyclePro.Data;
+using CyclePro.Helper;
 using CyclePro.Models;
 using Newtonsoft.Json;
 using Formatting = Newtonsoft.Json.Formatting;
@@ -27,7 +31,7 @@ namespace CyclePro.Controllers
         //
         // GET: /Analysis/
 
-        public ActionResult Dashboard() 
+        public ActionResult Dashboard()
         {
             return View();
         }
@@ -63,10 +67,10 @@ namespace CyclePro.Controllers
         {
             // Read bytes from http input stream
             BinaryReader b = new BinaryReader(file.InputStream);
-            byte[] binData = b.ReadBytes((int)file.InputStream.Length);
+            byte[] binData = b.ReadBytes((int) file.InputStream.Length);
             string data = System.Text.Encoding.UTF8.GetString(binData);
 
-            Hrm.SecondaryHrm = new Hrm(data);
+            Hrm.SecondaryHrm = new Hrm(data) {Name = file.FileName};
             return RedirectToAction("Comparison", "Analysis");
         }
 
@@ -103,9 +107,9 @@ namespace CyclePro.Controllers
 
             var add = true;
 
-            for(var i = 0; i < orderedList.Count(); i++)
+            for (var i = 0; i < orderedList.Count(); i++)
             {
-                if(add) markers.Add(orderedList[i]);
+                if (add) markers.Add(orderedList[i]);
 
                 for (var x = i; x < orderedList.Count() - 1; x++)
                 {
@@ -115,9 +119,9 @@ namespace CyclePro.Controllers
                         add = true;
                         break;
                     }
-                    
+
                     add = false;
-                    
+
                 }
             }
 
@@ -131,7 +135,7 @@ namespace CyclePro.Controllers
         [HttpPost]
         public ActionResult CropHrmData(GraphModel model)
         {
-            var fivePercent = (Hrm.PrimaryHrm.Data.Count / 10) / 2;
+            var fivePercent = (Hrm.PrimaryHrm.Data.Count/10)/2;
 
             var list = model.SelectedElementsToCrop.Split(',');
             var orderedList = list
@@ -147,9 +151,37 @@ namespace CyclePro.Controllers
             return RedirectToAction("Dashboard", "Analysis");
         }
 
-        public ActionResult DownloadHrmDataFile()
+        public void DownloadHrmDataFile()
         {
-            return RedirectToAction("Dashboard", "Analysis");
+            var fileData = new HrmFile(Hrm.PrimaryHrm);
+            var fileName = Hrm.PrimaryHrm.Name;
+            var fileString = fileData.HrmString();
+
+            try
+            {
+                var fileInBytes = Encoding.UTF8.GetBytes(fileString);
+                using (var stream = new MemoryStream(fileInBytes))
+                {
+                    var dataLengthToRead = stream.Length;
+                    Response.Clear();
+                    Response.ClearContent();
+                    Response.ClearHeaders();
+                    Response.BufferOutput = true;
+                    Response.ContentType = "text/html";
+                    Response.AddHeader("Content-Disposition", "attachment; filename=" + fileName + "-edited.hrm");
+                    Response.AddHeader("Content-Length", dataLengthToRead.ToString());
+                    stream.WriteTo(Response.OutputStream);
+                    Response.Flush();
+                    Response.Close();
+                }
+
+                Response.End();
+            }
+
+            catch (Exception)
+            {
+                // ignored
+            }
         }
     }
 }

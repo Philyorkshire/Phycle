@@ -118,3 +118,8 @@ nav {
     width: 100%;
     opacity: 0.4;
 }
+
+.action-button {
+    margin-left: 25%;
+    margin-right: 25%;
+} 

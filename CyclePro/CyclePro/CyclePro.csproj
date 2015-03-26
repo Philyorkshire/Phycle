@@ -123,6 +123,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\ConvertDistance.cs" />
+    <Compile Include="Helper\HrmFile.cs" />
     <Compile Include="Models\GraphModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -155,6 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Downloads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

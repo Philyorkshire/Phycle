@@ -22,6 +22,7 @@ namespace CyclePro.Data
     /// </summary>
     public class Hrm
     {
+        public string Name;
         public HrmParameters Parameters;
         public HrmFeatures Features;
         public List<HrmData> Data; 
@@ -202,23 +203,26 @@ namespace CyclePro.Data
 
                 if (Features.Speed)
                 {
-                    var speed = (double.Parse(r[n]));
+                    double speed;
 
                     if (Features.Euro)
                     {
-                        speed = (double.Parse(r[n]) / 10);
+                        speed = (double.Parse(r[n])/10);
                     }
 
-                    speed = (double.Parse(r[n])) / (60 * 60 / 1000);
-                    
+                    else
+                    {
+                        speed = (double.Parse(r[n])) / (60 * 60 / 1000);
+                    }
 
                     row.Speed = speed;
 
                     var seconds = Parameters.Interval.TotalSeconds / 10000;
                     var distanceInterval = seconds * row.Speed;
 
-                    row.Distance = Math.Round(distanceInterval, 2);
-                    totalDistance = Math.Round(totalDistance + distanceInterval, 2);
+                    row.Distance = distanceInterval;
+
+                    totalDistance = totalDistance + distanceInterval;
                     row.TotalDistance = totalDistance;
                 }
                 n++;
@@ -239,10 +243,6 @@ namespace CyclePro.Data
                 {
                     row.Power = double.Parse(r[n]); //4
                     n++;
-                }
-
-                if (Features.Pressure)
-                {
                     row.Pressure = double.Parse(r[n]); //5
                 }
 
