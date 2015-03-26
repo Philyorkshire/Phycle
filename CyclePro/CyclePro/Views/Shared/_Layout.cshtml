@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using CyclePro.Data
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -28,16 +29,19 @@
         <div class="one-third column">
             <h1>Cycle Analysis</h1>
         </div>
-        <div class="two-thirds column">
-            <nav>
-                <p>@Html.ActionLink("Upload", "Index", "Home")</p>
-                <p>@Html.ActionLink("Comparison", "Comparison", "Analysis")</p>
-                <p>@Html.ActionLink("Dashboard", "Dashboard", "Analysis")</p>
-                <p>@Html.ActionLink("Interval", "Intervals", "Analysis")</p>
-                <p>@Html.ActionLink("Raw", "Raw", "Analysis")</p>
-            </nav>
+        @if (Hrm.PrimaryHrm != null)
+        {
+            <div class="two-thirds column">
+                <nav>
+                    <p>@Html.ActionLink("Upload", "Index", "Home")</p>
+                    <p>@Html.ActionLink("Comparison", "Comparison", "Analysis")</p>
+                    <p>@Html.ActionLink("Dashboard", "Dashboard", "Analysis")</p>
+                    <p>@Html.ActionLink("Interval", "Intervals", "Analysis")</p>
+                    <p>@Html.ActionLink("Raw", "Raw", "Analysis")</p>
+                </nav>
 
-        </div><button href="#" onclick=" window.print();return false; " style="float: right">Print</button>
+            </div><button href="#" onclick=" window.print();return false; " style="float: right">Print</button>
+        }
     </div>
 
     @RenderBody()

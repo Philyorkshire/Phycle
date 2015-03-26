@@ -158,13 +158,13 @@ namespace CyclePro.Tests
             var pressure =  DataHrm.GetAverage("pressure");
             var distance =  DataHrm.GetAverage("distance"); 
 
-            Assert.AreEqual(19.9, speed);
-            Assert.AreEqual(132.37, hr);
-            Assert.AreEqual(48.57, cadence);
-            Assert.AreEqual(-94.55, altitude);
-            Assert.AreEqual(120.13, power);
+            Assert.AreEqual(67.03, speed);
+            Assert.AreEqual(132.67, hr);
+            Assert.AreEqual(49.26, cadence);
+            Assert.AreEqual(-94.51, altitude);
+            Assert.AreEqual(121.52, power);
             Assert.AreEqual(0, pressure);
-            Assert.AreEqual(0.2, distance);
+            Assert.AreEqual(0.01, distance);
         }
 
         /// <summary>
@@ -181,13 +181,13 @@ namespace CyclePro.Tests
             var pressure =  DataHrm.GetHighest("pressure");
             var distance =  DataHrm.GetHighest("distance");
 
-            Assert.AreEqual(50.8, speed);
+            Assert.AreEqual(169.33, Math.Round(speed, 2));
             Assert.AreEqual(162, hr);
             Assert.AreEqual(102, cadence);
-            Assert.AreEqual(50.8, altitude);
+            Assert.AreEqual(169.33, Math.Round(altitude, 2));
             Assert.AreEqual(440, power);
             Assert.AreEqual(0, pressure);
-            Assert.AreEqual(0.508, distance);
+            Assert.AreEqual(0.02, distance);
         }
 
         /// <summary>

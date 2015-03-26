@@ -10,9 +10,7 @@ EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
 WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 \***************************************************************************/
 
-using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -146,6 +144,11 @@ namespace CyclePro.Controllers
             Hrm.PrimaryHrm.Data.RemoveRange(orderedList.Max(), count - 1);
             Hrm.PrimaryHrm.Data.RemoveRange(0, first - fivePercent);
 
+            return RedirectToAction("Dashboard", "Analysis");
+        }
+
+        public ActionResult DownloadHrmDataFile()
+        {
             return RedirectToAction("Dashboard", "Analysis");
         }
     }
