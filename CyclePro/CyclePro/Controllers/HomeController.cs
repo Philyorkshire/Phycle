@@ -10,6 +10,7 @@ EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
 WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 \***************************************************************************/
 
+using System;
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
@@ -27,11 +28,19 @@ namespace CyclePro.Controllers
         public ActionResult Upload(HttpPostedFileBase file)
         {
             // Read bytes from http input stream
-            BinaryReader b = new BinaryReader(file.InputStream);
-            byte[] binData = b.ReadBytes((int) file.InputStream.Length);
-            string data = System.Text.Encoding.UTF8.GetString(binData);
+            try
+            {
+                BinaryReader b = new BinaryReader(file.InputStream);
+                byte[] binData = b.ReadBytes((int) file.InputStream.Length);
+                string data = System.Text.Encoding.UTF8.GetString(binData);
+                Hrm.PrimaryHrm = new Hrm(data) { Name = file.FileName };
+            }
 
-            Hrm.PrimaryHrm = new Hrm(data) { Name = file.FileName };
+            catch (Exception e)
+            {
+                ViewBag.Warning = "Error loading file: " + e;
+                return RedirectToAction("Index");
+            }
 
             return RedirectToAction("Dashboard","Analysis");
         }

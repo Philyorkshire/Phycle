@@ -158,13 +158,13 @@ namespace CyclePro.Tests
             var pressure =  DataHrm.GetAverage("pressure");
             var distance =  DataHrm.GetAverage("distance"); 
 
-            Assert.AreEqual(67.03, speed);
-            Assert.AreEqual(132.67, hr);
-            Assert.AreEqual(49.26, cadence);
-            Assert.AreEqual(-94.51, altitude);
-            Assert.AreEqual(121.52, power);
-            Assert.AreEqual(0, pressure);
-            Assert.AreEqual(0.01, distance);
+            Assert.AreEqual(20.11, speed, "Speed");
+            Assert.AreEqual(132.67, hr, "Heart Rate");
+            Assert.AreEqual(49.26, cadence, "Cadence");
+            Assert.AreEqual(-94.51, altitude, "Altitude");
+            Assert.AreEqual(121.52, power, "Power");
+            Assert.AreEqual(3000.42, pressure, "Pressure");
+            Assert.AreEqual(0.01, distance, "Distance");
         }
 
         /// <summary>
@@ -181,13 +181,13 @@ namespace CyclePro.Tests
             var pressure =  DataHrm.GetHighest("pressure");
             var distance =  DataHrm.GetHighest("distance");
 
-            Assert.AreEqual(169.33, Math.Round(speed, 2));
-            Assert.AreEqual(162, hr);
-            Assert.AreEqual(102, cadence);
-            Assert.AreEqual(169.33, Math.Round(altitude, 2));
-            Assert.AreEqual(440, power);
-            Assert.AreEqual(0, pressure);
-            Assert.AreEqual(0.02, distance);
+            Assert.AreEqual(50.8, Math.Round(speed, 2), "Speed");
+            Assert.AreEqual(162, hr, "Heart Rate");
+            Assert.AreEqual(102, cadence, "Cadence");
+            Assert.AreEqual(50.8, Math.Round(altitude, 2), "Altitude");
+            Assert.AreEqual(440, power, "Power");
+            Assert.AreEqual(19249, pressure, "Pressure");
+            Assert.AreEqual(0.01, Math.Round(distance, 2), "Distance");
         }
 
         /// <summary>
@@ -204,13 +204,13 @@ namespace CyclePro.Tests
             var pressure =  DataHrm.GetLowest("pressure");
             var distance =  DataHrm.GetLowest("distance");
 
-            Assert.AreEqual(0, speed);
-            Assert.AreEqual(98, hr);
-            Assert.AreEqual(0, cadence);
-            Assert.AreEqual(0, altitude);
-            Assert.AreEqual(0, power);
-            Assert.AreEqual(0, pressure);
-            Assert.AreEqual(0, distance);
+            Assert.AreEqual(0, speed, "Speed");
+            Assert.AreEqual(98, hr, "Heart Rate");
+            Assert.AreEqual(0, cadence, "Cadence");
+            Assert.AreEqual(0, altitude, "Altitude");
+            Assert.AreEqual(0, power, "Power");
+            Assert.AreEqual(50, pressure, "Pressure");
+            Assert.AreEqual(0, distance, "Distance");
         }
 
         /// <summary>

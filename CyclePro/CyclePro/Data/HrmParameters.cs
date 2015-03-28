@@ -93,7 +93,7 @@ namespace CyclePro.Data
         /// <summary>
         /// Add model number and device name to extend functionality.
         /// </summary>
-        public static readonly Dictionary<int, string> ModelName = new Dictionary<int, string>
+        public readonly Dictionary<int, string> ModelName = new Dictionary<int, string>
         { 
             // Model Id / Model Name
             {1, "Sport Tester / Vantage XL"},

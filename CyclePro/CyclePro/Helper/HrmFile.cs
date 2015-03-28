@@ -36,8 +36,12 @@ namespace CyclePro.Helper
 
         private int GetModelNumber(string name)
         {
-            var num = HrmParameters.ModelName.FirstOrDefault(x => x.Value == name);
-            return num.Key;
+            var value =
+                _hrm.Parameters
+                    .ModelName
+                    .FirstOrDefault(m => m.Value == name);
+
+            return value.Key;
         }
 
         private void GenerateParams()

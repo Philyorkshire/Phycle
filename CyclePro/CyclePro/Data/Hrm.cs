@@ -48,6 +48,8 @@ namespace CyclePro.Data
             {
                 FindIntervals();
             }
+
+            //CalculateDistance();
         }
 
         /// <summary>
@@ -175,7 +177,7 @@ namespace CyclePro.Data
 
             var startIndex = data.IndexOf(startString, StringComparison.Ordinal) + startString.Length;
             var rows = data.Substring(startIndex).Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            double totalDistance = 0;
+            double totalDistance = 0.0;
 
             Data = new List<HrmData>();
 
@@ -203,28 +205,24 @@ namespace CyclePro.Data
 
                 if (Features.Speed)
                 {
-                    double speed;
+                    row.Speed = double.Parse(r[n]);
+                    var speed = row.Speed * 0.00027777777777778;
 
                     if (Features.Euro)
                     {
-                        speed = (double.Parse(r[n])/10);
+                        row.Speed = (double.Parse(r[n]) / 10);
+                        speed = row.Speed * 0.27777777777778;
                     }
 
-                    else
-                    {
-                        speed = (double.Parse(r[n])) / (60 * 60 / 1000);
-                    }
+                    var interval = Parameters.Interval.TotalSeconds / 1000;
 
-                    row.Speed = speed;
-
-                    var seconds = Parameters.Interval.TotalSeconds / 10000;
-                    var distanceInterval = seconds * row.Speed;
-
+                    var distanceInterval = interval*speed;
                     row.Distance = distanceInterval;
 
+                    row.TotalDistance = totalDistance + distanceInterval;
                     totalDistance = totalDistance + distanceInterval;
-                    row.TotalDistance = totalDistance;
                 }
+
                 n++;
 
                 if (Features.Cadence)
@@ -281,31 +279,30 @@ namespace CyclePro.Data
         /// <summary>
         /// Find interval training in the data by analyzing peaks in the power
         /// </summary>
-        private void FindIntervals()
+        public void FindIntervals()
         {
-
             var positionsInts = new List<int>();
 
-            const double tolerance = 2;
+            const double tolerance = 1.4;
 
-            for (var i = 0; i < (Data.Count - 6); i+=3)
+            for (var i = 0; i < (Data.Count - 4); i+=3)
             {
-                var first = (Data[i].Power + Data[i + 1].Power) + Data[i + 2].Power;
-                var second = (Data[i + 3].Power + Data[i + 4].Power) + Data[i + 5].Power;
+                var first = (Data[i].Power + Data[i + 1].Power) + Data[i + 2].Power + Data[i + 3].Power;
+                var second = (Data[i + 2].Power + Data[i + 3].Power) + (Data[i + 4].Power + Data[i + 4].Power);
 
-                if ((first * tolerance) < second && first > 0.0)
+                if ((first * tolerance) < second)
                 {
                     positionsInts.Add(i);
 
-                    for (var x = i; x < (Data.Count - 6); x++)
+                    for (var x = i; x < (Data.Count - 4); x++)
                     {
-                        var firstColumn = (Data[x].Power + Data[x + 1].Power) + Data[x + 2].Power;
-                        var secondColumn = (Data[x + 3].Power + Data[x + 4].Power) + Data[x + 5].Power;
+                        var firstColumn = (Data[x].Power + Data[x + 1].Power) + Data[x + 2].Power + Data[i + 3].Power;
+                        var secondColumn = (Data[x + 2].Power + Data[x + 3].Power) + (Data[x + 4].Power + Data[x + 4].Power);
 
                         if ((firstColumn / tolerance) > secondColumn)
                         {
                             i = x;
-                            positionsInts.Add(x + 5);
+                            positionsInts.Add(x + 2);
                             break;
                         }
                     }

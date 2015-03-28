@@ -19,7 +19,6 @@
 
 <div class="row">
     <section class="one-third column">
-
         <h5>Primary Parameters</h5>
         <table>
             <tr>
@@ -208,7 +207,7 @@
                     <td>Data Rows</td>
                 </tr>
                 <tr>
-                    <td>@Math.Round(Hrm.PrimaryHrm.Data[Hrm.PrimaryHrm.Data.Count - 1].TotalDistance, 2)</td>
+                    <td>@Math.Round(Hrm.PrimaryHrm.Data.Max(t => t.TotalDistance), 2)</td>
                     <td>@Hrm.PrimaryHrm.Data.Sum(row => row.Power).ToString(CultureInfo.InvariantCulture)</td>
                     <td>@Hrm.PrimaryHrm.Data.Count</td>
                 </tr>
@@ -360,7 +359,7 @@
 
 @if (Hrm.PrimaryHrm.HrmIntervals != null)
 {
-    <p>Intervals# @Hrm.PrimaryHrm.HrmIntervals.Count </p>
+    <p>@Hrm.PrimaryHrm.HrmIntervals.Count Intervals detected</p>
 }
 
 <script>

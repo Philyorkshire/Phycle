@@ -1,9 +1,4 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
-
-<div class="row">
-    
+﻿<div class="row">
     <div class="one-third column">&nbsp;</div>
     <div class="one-third column">
         @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new {enctype = "multipart/form-data"}))

@@ -17,7 +17,6 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.UI;
 using CyclePro.Data;
 using CyclePro.Helper;
 using CyclePro.Models;
@@ -28,9 +27,6 @@ namespace CyclePro.Controllers
 {
     public class AnalysisController : Controller
     {
-        //
-        // GET: /Analysis/
-
         public ActionResult Dashboard()
         {
             return View();
@@ -45,10 +41,13 @@ namespace CyclePro.Controllers
                 .Select(int.Parse)
                 .ToArray();
 
-            var start = orderedList.Min();
+            var start = orderedList.Min() - 10 < 0 ? 0 : orderedList.Min() - 10;
+
             var range = orderedList.Max() - start;
 
             Hrm.PrimaryHrm.Data.RemoveRange(start, range);
+            Hrm.PrimaryHrm.FindIntervals();
+
             return View();
         }
 
@@ -63,14 +62,22 @@ namespace CyclePro.Controllers
         }
 
         [HttpPost]
-        public ActionResult Upload(HttpPostedFileBase file)
+        public RedirectToRouteResult Upload(HttpPostedFileBase file)
         {
-            // Read bytes from http input stream
-            BinaryReader b = new BinaryReader(file.InputStream);
-            byte[] binData = b.ReadBytes((int) file.InputStream.Length);
-            string data = System.Text.Encoding.UTF8.GetString(binData);
+            try
+            {
+                // Read bytes from http input stream
+                var b = new BinaryReader(file.InputStream);
+                var binData = b.ReadBytes((int) file.InputStream.Length);
+                var data = Encoding.UTF8.GetString(binData);
+                Hrm.SecondaryHrm = new Hrm(data) {Name = file.FileName};
+            }
 
-            Hrm.SecondaryHrm = new Hrm(data) {Name = file.FileName};
+            catch (Exception e)
+            {
+                ViewBag.Warning = "Error loading file: " + e;
+            }
+
             return RedirectToAction("Comparison", "Analysis");
         }
 
@@ -147,6 +154,8 @@ namespace CyclePro.Controllers
 
             Hrm.PrimaryHrm.Data.RemoveRange(orderedList.Max(), count - 1);
             Hrm.PrimaryHrm.Data.RemoveRange(0, first - fivePercent);
+
+            Hrm.PrimaryHrm.FindIntervals();
 
             return RedirectToAction("Dashboard", "Analysis");
         }

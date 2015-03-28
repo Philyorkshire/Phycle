@@ -6,7 +6,7 @@
 
 <section class="row">
     <h2 class="header-title">Raw Data View</h2>
-    <table>
+    <table style="width: 100%">
         <tr>
             <td></td>
             <td>Heart Rate</td>
@@ -64,8 +64,8 @@
                         <td>@i.Pressure</td>
                     }
 
-                    <td>@Math.Round(i.Distance,2)</td>
-                    <td>@Math.Round(i.TotalDistance,2)</td>
+                    <td>@Math.Round(i.Distance,7)</td>
+                    <td>@Math.Round(i.TotalDistance,7)</td>
                     <td>@i.DateTime</td>
                     <td></td>
                 </tr>
