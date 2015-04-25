@@ -26,3 +26,4 @@ C:\Users\phillip.marsden\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\bin\Deb
 C:\Users\phillip.marsden\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\obj\Debug\CyclePro.Tests.csprojResolveAssemblyReference.cache
 C:\Users\phillip.marsden\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\obj\Debug\CyclePro.Tests.dll
 C:\Users\phillip.marsden\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\obj\Debug\CyclePro.Tests.pdb
+C:\Users\phillip\Documents\GitHub\Phycle\CyclePro\CyclePro.Tests\bin\Debug\TechTalk.SpecFlow.dll

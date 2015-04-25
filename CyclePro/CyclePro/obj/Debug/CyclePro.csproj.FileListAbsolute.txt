@@ -57,3 +57,7 @@ C:\Users\phillip.marsden\Documents\GitHub\Phycle\CyclePro\CyclePro\bin\System.We
 C:\Users\phillip.marsden\Documents\GitHub\Phycle\CyclePro\CyclePro\obj\Debug\CyclePro.csprojResolveAssemblyReference.cache
 C:\Users\phillip.marsden\Documents\GitHub\Phycle\CyclePro\CyclePro\obj\Debug\CyclePro.dll
 C:\Users\phillip.marsden\Documents\GitHub\Phycle\CyclePro\CyclePro\obj\Debug\CyclePro.pdb
+C:\Users\phillip\Documents\GitHub\Phycle\CyclePro\CyclePro\bin\CyclePro.dll.config
+C:\Users\phillip\Documents\GitHub\Phycle\CyclePro\CyclePro\bin\nunit.framework.dll
+C:\Users\phillip\Documents\GitHub\Phycle\CyclePro\CyclePro\bin\TechTalk.SpecFlow.dll
+C:\Users\phillip\Documents\GitHub\Phycle\CyclePro\CyclePro\bin\nunit.framework.xml

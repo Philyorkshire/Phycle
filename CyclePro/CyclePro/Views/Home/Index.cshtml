@@ -4,8 +4,8 @@
         @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new {enctype = "multipart/form-data"}))
         {
             <div style="margin-top: 25%">
-                <input type="file" name="file"/>
-                <input type="submit" value="Upload File" name="Command"/><br/>
+                <input type="file" name="file" id="fileUpload"/>
+                <input type="submit" value="Upload File" name="Command" id="upload"/><br/>
             </div><p>Load your HRM Polar data file</p>
             <div>
             </div>

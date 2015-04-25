@@ -20,10 +20,8 @@ namespace CyclePro.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
-        {
-            return View();
-        }
+        public ActionResult Index(){ return View(); }
+        public ActionResult Wiki(){ return View(); }
 
         public ActionResult Upload(HttpPostedFileBase file)
         {
