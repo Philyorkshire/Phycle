@@ -135,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\cycle.css" />
+    <Content Include="Content\Images\graph.PNG" />
     <Content Include="Content\response.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\Chart.js" />

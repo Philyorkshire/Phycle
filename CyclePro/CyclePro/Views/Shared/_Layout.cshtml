@@ -40,13 +40,14 @@
                     <p>@Html.ActionLink("Raw", "Raw", "Analysis")</p>
                 </nav>
 
-            </div><button href="#" onclick=" window.print();return false; " style="float: right">Print</button>
+            </div>
+        <button href="#" onclick=" window.print();return false; " style="float: right">Print</button>
+        <a class="button button-primary" href="@Url.Action("Wiki", "Home")" style="float: right">Wiki</a>
         }
     </div>
 
     @RenderBody()
-    <footer>
-    </footer>
+
 </div>
 </body>
 </html>
